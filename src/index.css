@@ -12,6 +12,13 @@
   font-style: italic;
 }
 
+@font-face {
+  font-family: 'Doto';
+  src: url('./assets/fonts/Doto.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @import 'tailwindcss';
 
 @plugin 'tailwindcss-animate';
@@ -129,7 +136,8 @@
 }
 
 @theme {
-  --font-plus-jakarta-sans: 'Plus Jakarta Sans', serif;
+  --font-plus-jakarta-sans: 'Plus Jakarta Sans', sans-serif;
+  --font-doto: 'Doto', sans-serif;
 }
 
 @layer base {

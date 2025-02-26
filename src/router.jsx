@@ -1,37 +1,44 @@
-import { lazy, Suspense } from 'react'
 import { useRoutes } from 'react-router-dom'
-
 import { ErrorBoundary } from 'react-error-boundary'
+import { lazy } from 'react'
+import RootLayout from '@/app/layout'
 import Error from '@/app/error'
+import NotFound from '@/app/not-found.jsx'
 
-const NotFound = lazy(() => import('@/app/not-found.jsx'))
+const pages = import.meta.glob('./app/**/page.jsx')
+const layouts = import.meta.glob('./app/**/layout.jsx')
 
-// Auto-import pages & layouts
-const pages = import.meta.glob('@/app/**/page.jsx')
-const layouts = import.meta.glob('@/app/**/layout.jsx')
+const Wrapper = ({ layouts, children }) => {
+  if (layouts.length == 0) return children
+  return layouts.reduce((acc, Layout) => <Layout>{acc}</Layout>, children)
+}
 
-// Convert file paths to routes
-const routes = Object.keys(pages).map((path) => {
-  const Page = lazy(pages[path])
-  const layoutPath = path.replace('/page.jsx', '/layout.jsx')
-  const Layout = layouts[layoutPath]?.default || (({ children }) => <>{children}</>)
+const routes = Object.entries(pages).map(([path, module]) => {
+  const appliedLayouts = Object.entries(layouts)
+    .filter(([layoutPath, _]) => {
+      const normalizedPath = path.replace(/.*\/app/, '').replace('/page.jsx', '')
+      const normalizedLayoutPath = layoutPath.replace(/.*\/app/, '').replace('/layout.jsx', '')
 
-  let routePath = path
+      return normalizedLayoutPath && normalizedPath.startsWith(normalizedLayoutPath)
+    })
+    .sort(([path_1, _], [path_2, __]) => path_1.length - path_2.length)
+    .map(([_, layout]) => lazy(layout))
+
+  const route = path
     .replace(/.*\/app/, '')
     .replace('/page.jsx', '')
-    .replace(/\/index$/, '')
     .replace(/\[(.*?)\]/g, ':$1')
     .replace(/\/\((.*?)\)/g, '')
 
-  console.log(path, routePath)
+  const Page = lazy(module)
 
   return {
-    path: routePath,
+    path: route || '/',
     element: (
       <ErrorBoundary FallbackComponent={Error}>
-        <Layout>
+        <Wrapper layouts={appliedLayouts}>
           <Page />
-        </Layout>
+        </Wrapper>
       </ErrorBoundary>
     ),
   }
@@ -48,5 +55,5 @@ routes.push({
 })
 
 export default function AppRouter() {
-  return useRoutes(routes)
+  return <RootLayout>{useRoutes(routes)}</RootLayout>
 }
