@@ -24,7 +24,7 @@ const AppNavbar = () => {
               <Link
                 to={item.href}
                 className={cn(`text-primary flex flex-col items-center rounded-lg px-4 py-2 text-center font-semibold`, {
-                  'bg-primary text-white shadow': active,
+                  'bg-primary text-background shadow': active,
                 })}
               >
                 <item.icon />
