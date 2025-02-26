@@ -7,8 +7,8 @@ const AppWrapper = ({ title, children, className }) => {
   return (
     <>
       <AppHeader title={title} />
-      <ScrollArea className='w-full flex-1'>
-        <div className={`flex-grow p-2 ${className}`}>{children}</div>
+      <ScrollArea className='h-[calc(100vh-128px)] w-screen flex-grow'>
+        <div className={`w-full p-2 ${className}`}>{children}</div>
       </ScrollArea>
     </>
   )
