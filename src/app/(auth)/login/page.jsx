@@ -39,12 +39,21 @@ const LoginPage = () => {
   }
 
   return (
-    <section className='flex h-screen w-screen flex-col items-center justify-center'>
+    <section className='flex h-screen w-screen flex-col items-center justify-center gap-4 p-4'>
+      <img
+        src={'/icon.png'}
+        alt='icon'
+        className='aspect-square h-40 w-40'
+      />
+      <h1 className='text-2xl font-bold'>TD3 Unitee (βeta)</h1>
+      <p>Hí anh em!</p>
       <Button
         onClick={handleLogin}
         disabled={loading}
+        variant='outline'
+        className='min-w-32 text-center'
       >
-        {loading ? <Loader className='animate-spin' /> : 'Đăng nhập bằng Google'}
+        {loading ? <Loader className='animate-spin' /> : 'Đăng nhập'}
       </Button>
     </section>
   )

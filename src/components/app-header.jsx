@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { getAbbreviationName } from '@/lib/utils'
+import useAuth from '@/hooks/use-auth'
+import { googleLogout } from '@react-oauth/google'
 
 import { ChevronLeft, User, Settings, LogOut } from 'lucide-react'
 
@@ -18,12 +20,7 @@ import { Link } from 'react-router-dom'
 const AppHeader = ({ title }) => {
   const navigate = useNavigate()
 
-  const user = {
-    email: 'khiemnb153@gmail.com',
-    familyName: 'Nguyễn Bính',
-    givenName: 'Khiêm',
-    avatar: 'https://github.com/shadcn.png',
-  }
+  const { user, logout } = useAuth()
 
   return (
     <header className='sticky top-0 flex items-center justify-between border-b p-2'>
@@ -48,7 +45,7 @@ const AppHeader = ({ title }) => {
             <Avatar className='h-8 w-8'>
               <AvatarImage
                 src={user?.image}
-                alt='User avatar'
+                alt={`Ảnh đại diển của ${user?.familyName} ${user?.givenName}`}
               />
               <AvatarFallback>{getAbbreviationName(user?.givenName || 'U')}</AvatarFallback>
             </Avatar>
@@ -87,7 +84,13 @@ const AppHeader = ({ title }) => {
             </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className='cursor-pointer'>
+          <DropdownMenuItem
+            className='cursor-pointer'
+            onClick={() => {
+              googleLogout()
+              logout()
+            }}
+          >
             <LogOut className='h-4 w-4' />
             <span>Đăng xuất</span>
           </DropdownMenuItem>
