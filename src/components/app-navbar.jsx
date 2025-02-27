@@ -1,5 +1,3 @@
-'use client'
-
 import { cn } from '@/lib/utils'
 import { Link, useLocation } from 'react-router-dom'
 import { House, Utensils, Receipt, Bell } from 'lucide-react'

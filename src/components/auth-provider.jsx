@@ -23,17 +23,6 @@ const AuthProvider = ({ children }) => {
     localStorage.setItem('tokens', JSON.stringify(tokens))
   }
 
-  const mutate = ({ user, tokens }) => {
-    if (user) {
-      setUser(user)
-      localStorage.setItem('user', JSON.stringify(user))
-    }
-    if (tokens) {
-      setTokens(tokens)
-      localStorage.setItem('tokens', JSON.stringify(tokens))
-    }
-  }
-
   const logout = () => {
     setUser(null)
     setTokens(null)
@@ -41,7 +30,7 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem('tokens')
   }
 
-  return <AuthContext.Provider value={{ tokens, user, mutate, login, logout }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ tokens, user, login, logout, setTokens }}>{children}</AuthContext.Provider>
 }
 
 export default AuthProvider
