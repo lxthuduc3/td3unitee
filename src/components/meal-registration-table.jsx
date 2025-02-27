@@ -147,7 +147,7 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                           size='icon'
                           disabled={
                             (!!lunchRegistration && !lunchRegistration.late) ||
-                            !(canRegisterMeal(date) || (canModifyMeal(date, 'lunch') && !lunchRegistration))
+                            !(canRegisterMeal(date) || (canModifyMeal(date, 'lunch') && !!lunchRegistration))
                           }
                           onClick={() => {
                             if (!lunchRegistration) {
@@ -164,7 +164,7 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                           size='icon'
                           disabled={
                             (!!lunchRegistration && lunchRegistration.late) ||
-                            !(canRegisterMeal(date) || (canModifyMeal(date, 'lunch') && !lunchRegistration))
+                            !(canRegisterMeal(date) || (canModifyMeal(date, 'lunch') && !!lunchRegistration))
                           }
                           onClick={() => {
                             if (!lunchRegistration) {
