@@ -7,6 +7,7 @@ const pwaConfigs = {
     short_name: 'TD3 Unitee',
     description: 'The best app for Thu Duc 3 brothers',
     start_url: '/',
+    lang: 'vi',
     display: 'standalone',
     background_color: '#ffffff',
     theme_color: '#000000',

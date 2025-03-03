@@ -5,6 +5,7 @@ import { Sun, Moon, SunMoon } from 'lucide-react'
 import AppWrapper from '@/components/app-wrapper'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
+import { Button } from '@/components/ui/button'
 
 const SettingsPage = () => {
   const { theme, setTheme } = useTheme()
@@ -61,6 +62,47 @@ const SettingsPage = () => {
             </SelectItem>
           </SelectContent>
         </Select>
+      </div>
+
+      <div className='text-card-foreground flex flex-row items-center justify-between gap-2'>
+        <Label
+          htmlFor='notificationSwitch'
+          className='font-semibold'
+        >
+          Thông báo
+        </Label>
+        <Button
+          id='notificationSwitch'
+          disabled={Notification.permission == 'granted'}
+          onClick={async () => {
+            const permission = await Notification.requestPermission()
+            if (permission == 'granted') {
+              const token = await getToken(messaging, { vapidKey: import.meta.env.VITE_FIREBASE_VAPID_PUBLIC_KEY })
+
+              if (token) {
+                const res = await fetch(import.meta.env.VITE_API_BASE + `/notifications/subscribe`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${accessToken}`,
+                  },
+                  body: JSON.stringify({ token }),
+                })
+
+                if (!res.ok) {
+                  toast.error('Đăng ký nhận thông báo thất bại', { description: `Mã lỗi: ${res.status}` })
+                  console.log(await res.json())
+                  return
+                }
+                console.log(token)
+              } else {
+                console.log('No registration token available.')
+              }
+            }
+          }}
+        >
+          Bật
+        </Button>
       </div>
     </AppWrapper>
   )
