@@ -59,7 +59,7 @@ const AbsencesPage = () => {
         <DrawerTrigger asChild>
           <Button
             size='icon'
-            className='fixed right-4 bottom-20 z-50 h-12 w-12 rounded-xl'
+            className='fixed right-4 bottom-[calc(80px+env(safe-area-inset-bottom))] z-50 h-12 w-12 rounded-xl'
           >
             <Plus />
           </Button>
