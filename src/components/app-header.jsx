@@ -44,7 +44,7 @@ const AppHeader = ({ title }) => {
           >
             <Avatar className='h-8 w-8'>
               <AvatarImage
-                src={user?.image}
+                src={user?.avatar}
                 alt={`Ảnh đại diển của ${user?.familyName} ${user?.givenName}`}
               />
               <AvatarFallback>{getAbbreviationName(user?.givenName || 'U')}</AvatarFallback>
