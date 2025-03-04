@@ -60,7 +60,7 @@ const useAuth = () => {
     }
   }, [tokens, mutateTokens, navigate, isRefreshing])
 
-  return { user, accessToken: tokens.id_token, login, logout }
+  return { user, accessToken: tokens?.id_token, login, logout }
 }
 
 export default useAuth

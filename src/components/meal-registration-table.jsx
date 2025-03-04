@@ -278,10 +278,10 @@ export const MealRegistrationTableSkeleton = () => {
               <Skeleton className='h-4 w-20' />
             </TableCell>
             <TableCell>
-              <Skeleton className='mx-auto h-6 w-6 rounded-lg' />
+              <Skeleton className='mx-auto my-1.5 h-6 w-6 rounded-lg' />
             </TableCell>
             <TableCell>
-              <Skeleton className='mx-auto h-6 w-6 rounded-lg' />
+              <Skeleton className='mx-auto my-1.5 h-6 w-6 rounded-lg' />
             </TableCell>
           </TableRow>
         ))}

@@ -1,5 +1,5 @@
 import { BookUser, CookingPot, MailPlus, Presentation, ReceiptText, ShoppingCart, Sparkles } from 'lucide-react'
-import { HouseLeaveRR } from '@/components/ext/flaticon'
+import FiRrHouseLeave from '@/components/flaticons/fi-rr-house-leave'
 
 import AppWrapper from '@/components/app-wrapper'
 import { Link } from 'react-router-dom'
@@ -8,7 +8,7 @@ const tools = [
   { name: 'Nấu cơm', url: '/cooking', icon: CookingPot },
   { name: 'Đi chợ', url: '/shopping', icon: ShoppingCart },
   { name: 'XN tiền nhà', url: '/boarding-fees', icon: ReceiptText },
-  { name: 'Báo vắng', url: '/absences', icon: HouseLeaveRR },
+  { name: 'Báo vắng', url: '/absences', icon: FiRrHouseLeave },
   { name: 'Danh bạ', url: '/contacts', icon: BookUser },
   { name: 'Cuộc họp', url: '/meetings', icon: Presentation },
   { name: 'Viết mail', url: '/mailing', icon: MailPlus },
