@@ -37,7 +37,7 @@ const useAuth = () => {
   const { tokens, mutateTokens, user, login, logout } = context
 
   const handleRefreshToken = async () => {
-    if (tokens && isTokenExpired(tokens) && !isRefreshing) {
+    if (tokens && isTokenExpired(tokens)) {
       console.log('refresh called')
       const newTokens = await refreshToken(tokens)
 
