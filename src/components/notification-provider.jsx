@@ -36,7 +36,7 @@ const NotificationProvider = ({ children }) => {
       }
     }
 
-    if (Notification.permission != 'granted') {
+    if (Notification?.permission != 'granted') {
       requestPermission()
     }
 

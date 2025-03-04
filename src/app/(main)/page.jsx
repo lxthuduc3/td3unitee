@@ -6,12 +6,12 @@ import { Link } from 'react-router-dom'
 
 const tools = [
   { name: 'Nấu cơm', url: '/cooking', icon: CookingPot },
-  { name: 'Đi chợ', url: '/shopping', icon: ShoppingCart },
+  // { name: 'Đi chợ', url: '/shopping', icon: ShoppingCart },
   { name: 'XN tiền nhà', url: '/boarding-fees', icon: ReceiptText },
   { name: 'Báo vắng', url: '/absences', icon: FiRrHouseLeave },
   { name: 'Danh bạ', url: '/contacts', icon: BookUser },
-  { name: 'Cuộc họp', url: '/meetings', icon: Presentation },
-  { name: 'Viết mail', url: '/mailing', icon: MailPlus },
+  // { name: 'Cuộc họp', url: '/meetings', icon: Presentation },
+  // { name: 'Viết mail', url: '/mailing', icon: MailPlus },
   // { name: 'Uy tín', url: '/credibility', icon: Sparkles },
 ]
 

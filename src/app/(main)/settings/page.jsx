@@ -73,7 +73,7 @@ const SettingsPage = () => {
         </Label>
         <Button
           id='notificationSwitch'
-          disabled={Notification.permission == 'granted'}
+          disabled={!!Notification || Notification.permission == 'granted'}
           onClick={async () => {
             const permission = await Notification.requestPermission()
             if (permission == 'granted') {
