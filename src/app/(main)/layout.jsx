@@ -5,7 +5,7 @@ import NotificationProvider from '@/components/notification-provider'
 
 const MainLayout = ({ children }) => {
   return (
-    <main className='flex h-screen w-screen flex-col'>
+    <main className='flex h-screen w-screen flex-col overflow-hidden'>
       <Toaster position='top-center' />
       <AuthGuard>
         <NotificationProvider>
