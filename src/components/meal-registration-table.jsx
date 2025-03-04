@@ -36,8 +36,7 @@ const canModifyMeal = (date, meal) => {
 }
 
 const MealRegistrationTable = ({ mealRegistrations }) => {
-  const { tokens } = useAuth()
-  const accessToken = tokens.id_token
+  const { accessToken } = useAuth()
   let today = new Date()
   if (today.getDay() == 6 && today.getHours() >= 19) {
     today = addDays(today, 1)

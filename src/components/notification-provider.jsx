@@ -6,8 +6,7 @@ import { messaging } from '@/firebase'
 import { getToken, onMessage } from 'firebase/messaging'
 
 const NotificationProvider = ({ children }) => {
-  const { tokens } = useAuth()
-  const accessToken = tokens.id_token
+  const { accessToken } = useAuth()
 
   useEffect(() => {
     const requestPermission = async () => {

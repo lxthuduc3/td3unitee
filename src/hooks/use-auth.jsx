@@ -34,17 +34,18 @@ const useAuth = () => {
     throw new Error('useAuth must be used within a AuthProvider')
   }
 
-  const { tokens, setTokens, user, login, logout } = context
+  const { tokens, mutateTokens, user, login, logout } = context
   const [isRefreshing, setIsRefreshing] = useState(false)
 
   useEffect(() => {
-    const checkAndRefreshToken = async () => {
+    const handleRefreshToken = async () => {
       if (isTokenExpired(tokens) && !isRefreshing) {
+        console.log('refresh called')
         setIsRefreshing(true)
         const newTokens = await refreshToken(tokens)
 
         if (newTokens) {
-          setTokens(newTokens)
+          mutateTokens(newTokens)
         } else {
           toast.error('Phiên đăng nhập đã hết hạn', { description: 'Vui lòng đăng nhập lại.' })
           navigate('/login')
@@ -52,14 +53,14 @@ const useAuth = () => {
 
         setIsRefreshing(false)
       }
+      console.log('useEffect called')
+      if (tokens) {
+        handleRefreshToken()
+      }
     }
+  }, [tokens, mutateTokens, navigate, isRefreshing])
 
-    if (!!tokens) {
-      checkAndRefreshToken()
-    }
-  }, [tokens, setTokens, navigate, isRefreshing])
-
-  return { user, tokens, login, logout }
+  return { user, accessToken: tokens.id_token, login, logout }
 }
 
 export default useAuth

@@ -1,8 +1,9 @@
 import useFetch from '@/hooks/use-fetch'
 
-import { Suspense } from 'react'
+import { Suspense, lazy } from 'react'
 import AppWrapper from '@/components/app-wrapper'
-import MealRegistrationTable, { MealRegistrationTableSkeleton } from '@/components/meal-registration-table'
+import { MealRegistrationTableSkeleton } from '@/components/meal-registration-table'
+const MealRegistrationTable = lazy(() => import('@/components/meal-registration-table'))
 
 const MealRegistrationPage = () => {
   const { data: mealRegistrations } = useFetch('/me/meal-registrations', { suspense: true })

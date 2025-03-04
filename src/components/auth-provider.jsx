@@ -30,7 +30,12 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem('tokens')
   }
 
-  return <AuthContext.Provider value={{ tokens, user, login, logout, setTokens }}>{children}</AuthContext.Provider>
+  const mutateTokens = (newTokens) => {
+    setTokens(newTokens)
+    localStorage.setItem('tokens', JSON.stringify(newTokens))
+  }
+
+  return <AuthContext.Provider value={{ tokens, user, login, logout, mutateTokens }}>{children}</AuthContext.Provider>
 }
 
 export default AuthProvider
