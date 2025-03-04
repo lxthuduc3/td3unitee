@@ -37,28 +37,24 @@ const useAuth = () => {
   const { tokens, mutateTokens, user, login, logout } = context
   const [isRefreshing, setIsRefreshing] = useState(false)
 
-  useEffect(() => {
-    const handleRefreshToken = async () => {
-      if (isTokenExpired(tokens) && !isRefreshing) {
-        console.log('refresh called')
-        setIsRefreshing(true)
-        const newTokens = await refreshToken(tokens)
+  const handleRefreshToken = async () => {
+    if (tokens && isTokenExpired(tokens) && !isRefreshing) {
+      console.log('refresh called')
+      setIsRefreshing(true)
+      const newTokens = await refreshToken(tokens)
 
-        if (newTokens) {
-          mutateTokens(newTokens)
-        } else {
-          toast.error('Phiên đăng nhập đã hết hạn', { description: 'Vui lòng đăng nhập lại.' })
-          navigate('/login')
-        }
+      if (newTokens) {
+        mutateTokens(newTokens)
+      } else {
+        toast.error('Phiên đăng nhập đã hết hạn', { description: 'Vui lòng đăng nhập lại.' })
+        navigate('/login')
+      }
 
-        setIsRefreshing(false)
-      }
-      console.log('useEffect called')
-      if (tokens) {
-        handleRefreshToken()
-      }
+      setIsRefreshing(false)
     }
-  }, [tokens, mutateTokens, navigate, isRefreshing])
+  }
+
+  handleRefreshToken()
 
   return { user, accessToken: tokens?.id_token, login, logout }
 }
