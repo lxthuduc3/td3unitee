@@ -118,6 +118,7 @@ const ExpenseReportForm = ({ defaultValues, onSubmit, onReset }) => {
           <Button type='submit'>Gửi</Button>
 
           <Button
+            type='button'
             variant='secondary'
             onClick={handleFormReset}
           >
