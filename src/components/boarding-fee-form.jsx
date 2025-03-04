@@ -2,11 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { format } from 'date-fns'
 
-import { boardingFeeSchema } from '@schemas/boarding-fee-schema'
+import { boardingFeeSchema } from '@/schemas/boarding-fee-schema'
 
-import { Button } from '@components/ui/button'
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@components/ui/form'
-import { Input } from '@components/ui/input'
+import { Button } from '@/components/ui/button'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 
 const BoardingFeeForm = ({ defaultValues, onSubmit, onReset }) => {
   const form = useForm({

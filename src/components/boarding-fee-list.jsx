@@ -1,13 +1,13 @@
 'use client'
 
-import { useState } from 'react'
-import currency from '@lib/currency'
+import { useState, lazy, Suspense } from 'react'
+import currency from '@/lib/currency'
 import { format } from 'date-fns'
 import { mutate } from 'swr'
 import { toast } from 'sonner'
-import { useSession } from 'next-auth/react'
+import useAuth from '@/hooks/use-auth'
 
-import { transactionStatuses } from '@lib/display-text'
+import { transactionStatuses } from '@/lib/display-text'
 
 import { Check, FilePenLine, Trash2 } from 'lucide-react'
 
@@ -26,11 +26,10 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
-import BoardingFeeForm from '@components/boarding-fee-form'
+const BoardingFeeForm = lazy(() => import('@/components/boarding-fee-form'))
 
 const BoardingFeeItem = ({ boardingFee }) => {
-  const { data: session } = useSession()
-  const accessToken = session?.accessToken
+  const { accessToken } = useAuth()
 
   const [formOpen, setFormOpen] = useState(false)
 
@@ -113,11 +112,13 @@ const BoardingFeeItem = ({ boardingFee }) => {
                   <DrawerHeader>
                     <DrawerTitle>Chỉnh sửa khoản chi</DrawerTitle>
                   </DrawerHeader>
-                  <BoardingFeeForm
-                    defaultValues={boardingFee}
-                    onSubmit={handleFormSubmit}
-                    onReset={handleFormReset}
-                  />
+                  <Suspense>
+                    <BoardingFeeForm
+                      defaultValues={boardingFee}
+                      onSubmit={handleFormSubmit}
+                      onReset={handleFormReset}
+                    />
+                  </Suspense>
                 </div>
               </DrawerContent>
             </Drawer>
@@ -152,15 +153,19 @@ const BoardingFeeItem = ({ boardingFee }) => {
   )
 }
 
-const BoardingFeeList = ({ boardingFees }) => {
+const BoardingFeeList = ({ boardingFees = [] }) => {
   return (
     <div className='flex w-full flex-col gap-2'>
-      {boardingFees.map((boardingFee) => (
-        <BoardingFeeItem
-          key={boardingFee._id}
-          boardingFee={boardingFee}
-        />
-      ))}
+      {boardingFees.length > 0 ? (
+        boardingFees.map((boardingFee) => (
+          <BoardingFeeItem
+            key={boardingFee._id}
+            boardingFee={boardingFee}
+          />
+        ))
+      ) : (
+        <span className='text-muted-foreground w-full text-center italic'>Danh sách trống</span>
+      )}
     </div>
   )
 }

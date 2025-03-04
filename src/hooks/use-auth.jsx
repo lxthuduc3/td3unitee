@@ -35,12 +35,10 @@ const useAuth = () => {
   }
 
   const { tokens, mutateTokens, user, login, logout } = context
-  const [isRefreshing, setIsRefreshing] = useState(false)
 
   const handleRefreshToken = async () => {
     if (tokens && isTokenExpired(tokens) && !isRefreshing) {
       console.log('refresh called')
-      setIsRefreshing(true)
       const newTokens = await refreshToken(tokens)
 
       if (newTokens) {
@@ -49,8 +47,6 @@ const useAuth = () => {
         toast.error('Phiên đăng nhập đã hết hạn', { description: 'Vui lòng đăng nhập lại.' })
         navigate('/login')
       }
-
-      setIsRefreshing(false)
     }
   }
 
