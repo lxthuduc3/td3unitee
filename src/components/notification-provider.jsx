@@ -36,11 +36,13 @@ const NotificationProvider = ({ children }) => {
       }
     }
 
-    if (Notification.permission != 'granted') {
+    if ('Notification' in window && Notification.permission != 'granted') {
       requestPermission()
     }
 
     onMessage(messaging, (payload) => {
+      console.log(payload)
+
       toast.info(payload.notification.title, { description: payload.notification.body })
     })
   }, [])
