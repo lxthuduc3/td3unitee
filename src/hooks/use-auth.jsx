@@ -48,6 +48,7 @@ const useAuth = () => {
         mutateTokens(newTokens)
       } else {
         toast.error('Phiên đăng nhập đã hết hạn', { description: 'Vui lòng đăng nhập lại.' })
+        logout()
         navigate('/login')
       }
       setIsRefreshing(false)
