@@ -1,4 +1,8 @@
 import useTheme from '@/hooks/use-theme'
+import useAuth from '@/hooks/use-auth'
+import { messaging } from '@/lib/firebase'
+import { getToken } from 'firebase/messaging'
+import { toast } from 'sonner'
 
 import { Sun, Moon, SunMoon } from 'lucide-react'
 
@@ -9,6 +13,8 @@ import { Button } from '@/components/ui/button'
 
 const SettingsPage = () => {
   const { theme, setTheme } = useTheme()
+  const { accessToken } = useAuth()
+
   return (
     <AppWrapper
       title='Cài đặt'
@@ -95,6 +101,7 @@ const SettingsPage = () => {
                   return
                 }
                 console.log(token)
+                toast.error('Đăng ký nhận thông báo thành công')
               } else {
                 console.log('No registration token available.')
               }

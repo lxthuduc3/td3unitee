@@ -2,7 +2,7 @@ import { toast } from 'sonner'
 import useAuth from '@/hooks/use-auth'
 
 import { useEffect } from 'react'
-import { messaging } from '@/firebase'
+import { messaging } from '@/lib/firebase'
 import { getToken, onMessage } from 'firebase/messaging'
 
 const NotificationProvider = ({ children }) => {
