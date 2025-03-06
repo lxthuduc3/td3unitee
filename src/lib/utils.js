@@ -26,3 +26,8 @@ export const removeVietnameseTones = (str) => {
     .replace(/đ/g, 'd')
     .replace(/Đ/g, 'D')
 }
+
+export const isOldIphone = () => {
+  let match = navigator.userAgent.match(/OS (\d+)_/)
+  return match && parseInt(match[1], 10) <= 15
+}
