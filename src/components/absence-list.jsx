@@ -92,12 +92,16 @@ const AbsenceItem = ({ absence }) => {
 const AbsenceList = ({ absences }) => {
   return (
     <div className='flex w-full flex-col gap-2'>
-      {absences.map((absence) => (
-        <AbsenceItem
-          key={absence._id}
-          absence={absence}
-        />
-      ))}
+      {absences.length > 0 ? (
+        absences.map((absence) => (
+          <AbsenceItem
+            key={absence._id}
+            absence={absence}
+          />
+        ))
+      ) : (
+        <span className='text-muted-foreground w-full text-center text-sm italic'>Không có báo vắng</span>
+      )}
     </div>
   )
 }

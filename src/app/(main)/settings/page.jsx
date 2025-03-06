@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import useTheme from '@/hooks/use-theme'
 import useAuth from '@/hooks/use-auth'
 import { messaging } from '@/lib/firebase'
@@ -14,6 +15,14 @@ import { Button } from '@/components/ui/button'
 const SettingsPage = () => {
   const { theme, setTheme } = useTheme()
   const { accessToken } = useAuth()
+
+  const [notiStatus, setNotiStatus] = useState(() => {
+    if ('Notification' in window) {
+      return 'unsupported'
+    } else {
+      return Notification.permission
+    }
+  })
 
   return (
     <AppWrapper
@@ -79,7 +88,7 @@ const SettingsPage = () => {
         </Label>
         <Button
           id='notificationSwitch'
-          disabled={!('Notification' in window) || Notification.permission == 'granted'}
+          disabled={['unsupported', 'granted'].includes(notiStatus)}
           onClick={async () => {
             const permission = await Notification.requestPermission()
             if (permission == 'granted') {
@@ -92,7 +101,7 @@ const SettingsPage = () => {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${accessToken}`,
                   },
-                  body: JSON.stringify({ token }),
+                  body: JSON.stringify({ token, topic: 'general' }),
                 })
 
                 if (!res.ok) {
@@ -101,6 +110,7 @@ const SettingsPage = () => {
                   return
                 }
                 console.log(token)
+                setNotiStatus('granted')
                 toast.error('Đăng ký nhận thông báo thành công')
               } else {
                 console.log('No registration token available.')

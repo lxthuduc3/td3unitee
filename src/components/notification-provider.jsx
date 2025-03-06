@@ -12,6 +12,7 @@ const NotificationProvider = ({ children }) => {
 
   useEffect(() => {
     const requestPermission = async () => {
+      const curentPermission = Notification.permission
       const permission = await Notification.requestPermission()
       if (permission == 'granted') {
         const token = await getToken(messaging, { vapidKey: import.meta.env.VITE_FIREBASE_VAPID_PUBLIC_KEY })
@@ -23,7 +24,7 @@ const NotificationProvider = ({ children }) => {
               'Content-Type': 'application/json',
               Authorization: `Bearer ${accessToken}`,
             },
-            body: JSON.stringify({ token }),
+            body: JSON.stringify({ token, topic: 'general' }),
           })
 
           if (!res.ok) {
@@ -32,7 +33,9 @@ const NotificationProvider = ({ children }) => {
             return
           }
 
-          toast.success('Đăng ký nhận thông báo thành công')
+          if (curentPermission != 'granted') {
+            toast.success('Đăng ký nhận thông báo thành công')
+          }
           console.log(token)
         } else {
           console.log('No registration token available.')
