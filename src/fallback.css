@@ -140,6 +140,10 @@
   --font-doto: 'Doto', sans-serif;
 }
 
+* {
+  border-color: var(--border);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
