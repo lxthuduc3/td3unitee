@@ -1,6 +1,8 @@
 import { toast } from 'sonner'
 import useAuth from '@/hooks/use-auth'
 
+import pop from '@/assets/sounds/pop.mp3'
+
 import { useEffect } from 'react'
 import { messaging } from '@/lib/firebase'
 import { getToken, onMessage } from 'firebase/messaging'
@@ -48,6 +50,7 @@ const NotificationProvider = ({ children }) => {
       console.log(payload)
 
       toast.info(payload.notification.title, { description: payload.notification.body })
+      new Audio(pop).play()
     })
   }, [])
 
