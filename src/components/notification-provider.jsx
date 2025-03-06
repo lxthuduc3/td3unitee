@@ -29,6 +29,8 @@ const NotificationProvider = ({ children }) => {
             console.log(await res.json())
             return
           }
+
+          toast.success('Đăng ký nhận thông báo thành công')
           console.log(token)
         } else {
           console.log('No registration token available.')
@@ -36,10 +38,12 @@ const NotificationProvider = ({ children }) => {
       }
     }
 
-    if ('Notification' in window && Notification.permission != 'granted') {
+    if ('Notification' in window) {
       requestPermission()
     }
+  }, [])
 
+  useEffect(() => {
     onMessage(messaging, (payload) => {
       console.log(payload)
 
