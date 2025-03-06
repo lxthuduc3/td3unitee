@@ -1,4 +1,4 @@
-const NotificationsList = ({ notifcations }) => {
+const NotificationsList = ({ notifcations = [] }) => {
   return <div>notifcations</div>
 }
 
