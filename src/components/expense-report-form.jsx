@@ -84,12 +84,6 @@ const ExpenseReportForm = ({ defaultValues, onSubmit, onReset }) => {
                 }}
                 popoverPosition='center'
               />
-              {/* <FormControl>
-                <Input
-                  type='date'
-                  {...field}
-                />
-              </FormControl> */}
               <FormMessage />
             </FormItem>
           )}

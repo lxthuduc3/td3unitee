@@ -6,7 +6,7 @@ import { absenceSchema } from '@/schemas/absence-schema'
 
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+import DatePicker from '@/components/ext/date-picker'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 
@@ -87,12 +87,13 @@ const AbsenceForm = ({ defaultValues, onSubmit, onReset }) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Ngày</FormLabel>
-              <FormControl>
-                <Input
-                  type='date'
-                  {...field}
-                />
-              </FormControl>
+              <DatePicker
+                date={new Date(field.value)}
+                onDateChange={(date) => {
+                  field.onChange(format(date, 'yyyy-MM-dd'))
+                }}
+                popoverPosition='center'
+              />
               <FormMessage />
             </FormItem>
           )}
