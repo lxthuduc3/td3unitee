@@ -42,26 +42,26 @@ const CookingPage = () => {
       <div className='flex w-full flex-col gap-4'>
         <h3 className='leading-none font-semibold tracking-tight'>Thực đơn</h3>
         <Suspense
-          fallback={<span className='text-muted-foreground w-full animate-pulse text-center text-sm'>Đang tải...</span>}
+          fallback={<span className='text-muted-foreground w-full animate-pulse text-center text-sm italic'>Đang tải...</span>}
         >
           <Accordion
             type='multiple'
             collapsible='true'
             className='w-full'
           >
-            <AccordionItem value={menu?.mainDish?._id}>
-              <AccordionTrigger>{menu?.mainDish?.name}</AccordionTrigger>
-              <AccordionContent>{menu?.mainDish?.ingredients.map((i) => i.name).join(', ')}</AccordionContent>
+            <AccordionItem value={menu.mainDish?._id}>
+              <AccordionTrigger>{menu.mainDish?.name}</AccordionTrigger>
+              <AccordionContent>{menu.mainDish?.ingredients.map((i) => i.name).join(', ')}</AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value={menu?.vegie?._id}>
-              <AccordionTrigger>{menu?.vegie?.name}</AccordionTrigger>
-              <AccordionContent>{menu?.vegie?.ingredients.map((i) => i.name).join(', ')}</AccordionContent>
+            <AccordionItem value={menu.vegie?._id}>
+              <AccordionTrigger>{menu.vegie?.name}</AccordionTrigger>
+              <AccordionContent>{menu.vegie?.ingredients.map((i) => i.name).join(', ')}</AccordionContent>
             </AccordionItem>
 
-            <AccordionItem value={menu?.soup?._id}>
-              <AccordionTrigger>{menu?.soup?.name}</AccordionTrigger>
-              <AccordionContent>{menu?.soup?.ingredients.map((i) => i.name).join(', ')}</AccordionContent>
+            <AccordionItem value={menu.soup?._id}>
+              <AccordionTrigger>{menu.soup?.name}</AccordionTrigger>
+              <AccordionContent>{menu.soup?.ingredients.map((i) => i.name).join(', ')}</AccordionContent>
             </AccordionItem>
           </Accordion>
         </Suspense>
@@ -141,10 +141,7 @@ const CookingPage = () => {
 
           <h4 className='font-medium'>Danh sách hủy cơm</h4>
           <div>
-            <span className='text-muted-foreground w-full text-sm italic'>
-              I expect your attitude to be good; otherwise, this feature will be released, or even worse, you will no longer be
-              able to cancel a meal!
-            </span>
+            <span className='text-muted-foreground w-full text-sm italic'>&quot;Ý thức càng cao, tự do càng nhiều!&quot;</span>
           </div>
         </Suspense>
       </div>
