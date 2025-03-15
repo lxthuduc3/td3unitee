@@ -18,9 +18,9 @@ const SettingsPage = () => {
 
   const [notiStatus, setNotiStatus] = useState(() => {
     if ('Notification' in window) {
-      return 'unsupported'
-    } else {
       return Notification.permission
+    } else {
+      return 'unsupported'
     }
   })
 
