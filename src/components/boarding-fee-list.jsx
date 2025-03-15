@@ -164,7 +164,7 @@ const BoardingFeeList = ({ boardingFees = [] }) => {
           />
         ))
       ) : (
-        <span className='text-muted-foreground w-full text-center italic'>Danh sách trống</span>
+        <span className='text-muted-foreground w-full text-center text-sm italic'>Danh sách trống</span>
       )}
     </div>
   )

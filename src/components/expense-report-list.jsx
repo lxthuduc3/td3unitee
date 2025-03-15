@@ -79,7 +79,7 @@ const ExpenseReportItem = ({ expense }) => {
     mutate((key) => key.startsWith('/me/expenses'))
   }
 
-  const handleConfirm = async (values) => {
+  const handleConfirm = async () => {
     const res = await fetch(import.meta.env.VITE_API_BASE + `/me/expenses/${expense._id}/confirm`, {
       method: 'PATCH',
       headers: {
@@ -209,7 +209,7 @@ const ExpenseReportList = ({ expenses = [] }) => {
           />
         ))
       ) : (
-        <span className='text-muted-foreground w-full text-center italic'>Danh sách trống</span>
+        <span className='text-muted-foreground w-full text-center text-sm italic'>Danh sách trống</span>
       )}
     </div>
   )
