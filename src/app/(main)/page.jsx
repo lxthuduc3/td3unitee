@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 const tools = [
   { name: 'Nấu cơm', url: '/cooking', icon: CookingPot },
-  // { name: 'Đi chợ', url: '/shopping', icon: ShoppingCart },
+  { name: 'Đi chợ', url: '/shopping', icon: ShoppingCart },
   { name: 'XN tiền nhà', url: '/boarding-fees', icon: ReceiptText },
   { name: 'Báo vắng', url: '/absences', icon: FiRrHouseLeave },
   { name: 'Danh bạ', url: '/contacts', icon: BookUser },
