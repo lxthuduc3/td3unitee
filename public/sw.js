@@ -1,24 +1,18 @@
-self.addEventListener('push', function (event) {
-  if (event.data) {
-    const data = event.data
-
-    self.clients.matchAll().then((clients) => {
-      clients.forEach((client) => {
-        client.postMessage(data)
-      })
-    })
-
-    event.waitUntil(
-      self.registration.showNotification(data.title, {
-        body: data.body,
-        icon: '/icon.png',
-      })
-    )
+self.addEventListener('push', (event) => {
+  if (!(self.Notification && self.Notification.permission === 'granted')) {
+    return
   }
-})
 
-self.addEventListener('notificationclick', function (event) {
-  console.log('Notification click received.')
-  event.notification.close()
-  event.waitUntil(clients.openWindow('https://td3unitee.vercel.app'))
+  const data = event.data?.json() ?? {}
+  const title = data.title || 'Something Has Happened'
+  const message = data.message || "Here's something you might want to check out."
+
+  const notification = new self.Notification(title, {
+    body: message,
+    icon: '/icon.png',
+  })
+
+  notification.addEventListener('click', () => {
+    clients.openWindow('https://td3unitee.vercel.app')
+  })
 })
