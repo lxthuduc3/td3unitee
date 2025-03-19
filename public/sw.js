@@ -1,6 +1,6 @@
 self.addEventListener('push', function (event) {
   if (event.data) {
-    const data = event.data.json()
+    const data = event.data
 
     self.clients.matchAll().then((clients) => {
       clients.forEach((client) => {
