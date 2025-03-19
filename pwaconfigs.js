@@ -1,7 +1,6 @@
 const pwaConfigs = {
   injectRegister: 'auto',
   registerType: 'autoUpdate',
-  filename: 'firebase-messaging-sw.js',
   manifest: {
     name: 'TD3 Unitee',
     short_name: 'TD3 Unitee',

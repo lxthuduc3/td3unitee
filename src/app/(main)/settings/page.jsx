@@ -1,8 +1,6 @@
 import { useState } from 'react'
 import useTheme from '@/hooks/use-theme'
 import useAuth from '@/hooks/use-auth'
-import { messaging } from '@/lib/firebase'
-import { getToken } from 'firebase/messaging'
 import { toast } from 'sonner'
 
 import { Sun, Moon, SunMoon } from 'lucide-react'
@@ -11,6 +9,19 @@ import AppWrapper from '@/components/app-wrapper'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
+
+const urlBase64ToUint8Array = (base64String) => {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
+
+  const rawData = window.atob(base64)
+  const outputArray = new Uint8Array(rawData.length)
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i)
+  }
+  return outputArray
+}
 
 const SettingsPage = () => {
   const { theme, setTheme } = useTheme()
@@ -92,29 +103,31 @@ const SettingsPage = () => {
           onClick={async () => {
             const permission = await Notification.requestPermission()
             if (permission == 'granted') {
-              const token = await getToken(messaging, { vapidKey: import.meta.env.VITE_FIREBASE_VAPID_PUBLIC_KEY })
+              const registration = await navigator.serviceWorker.ready
 
-              if (token) {
-                const res = await fetch(import.meta.env.VITE_API_BASE + `/notifications/subscribe`, {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${accessToken}`,
-                  },
-                  body: JSON.stringify({ token, topic: 'general' }),
-                })
+              const sub = await registration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: urlBase64ToUint8Array(import.meta.env.VITE_WEBPUSH_VAPID_PUBLIC_KEY),
+              })
 
-                if (!res.ok) {
-                  toast.error('Đăng ký nhận thông báo thất bại', { description: `Mã lỗi: ${res.status}` })
-                  console.log(await res.json())
-                  return
-                }
-                console.log(token)
-                setNotiStatus('granted')
-                toast.error('Đăng ký nhận thông báo thành công')
-              } else {
-                console.log('No registration token available.')
+              const { endpoint, keys } = JSON.parse(JSON.stringify(sub))
+
+              const res = await fetch(import.meta.env.VITE_API_BASE + `/notifications/subscribe`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify({ endpoint, keys, topic: 'general' }),
+              })
+
+              if (!res.ok) {
+                toast.error('Đăng ký nhận thông báo thất bại', { description: `Mã lỗi: ${res.status}` })
+                console.log(await res.json())
+                return
               }
+
+              toast.success('Đăng ký nhận thông báo thành công')
             }
           }}
         >

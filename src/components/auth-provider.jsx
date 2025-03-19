@@ -46,7 +46,7 @@ const AuthProvider = ({ children }) => {
   const callbackUrl = searchParams.get('callbackUrl')
   const navigate = useNavigate()
 
-  const googleLogin = useGoogleLogin({
+  const login = useGoogleLogin({
     onSuccess: async ({ code }) => {
       const res = await fetch(import.meta.env.VITE_API_BASE + '/auth/google', {
         method: 'POST',
@@ -75,11 +75,6 @@ const AuthProvider = ({ children }) => {
     },
     flow: 'auth-code',
   })
-
-  const login = ({ callbackUrl }) => {
-    googleLogin()
-    navigate(callbackUrl || '/')
-  }
 
   const logout = ({ callbackUrl }) => {
     googleLogout()

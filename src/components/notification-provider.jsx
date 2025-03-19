@@ -4,8 +4,19 @@ import useAuth from '@/hooks/use-auth'
 import pop from '@/assets/sounds/pop.mp3'
 
 import { useEffect } from 'react'
-import { messaging } from '@/lib/firebase'
-import { getToken, onMessage } from 'firebase/messaging'
+
+const urlBase64ToUint8Array = (base64String) => {
+  const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
+  const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
+
+  const rawData = window.atob(base64)
+  const outputArray = new Uint8Array(rawData.length)
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i)
+  }
+  return outputArray
+}
 
 const NotificationProvider = ({ children }) => {
   const { accessToken } = useAuth()
@@ -15,46 +26,44 @@ const NotificationProvider = ({ children }) => {
       const curentPermission = Notification.permission
       const permission = await Notification.requestPermission()
       if (permission == 'granted') {
-        const token = await getToken(messaging, { vapidKey: import.meta.env.VITE_FIREBASE_VAPID_PUBLIC_KEY })
+        const registration = await navigator.serviceWorker.ready
 
-        if (token) {
-          const res = await fetch(import.meta.env.VITE_API_BASE + `/notifications/subscribe`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${accessToken}`,
-            },
-            body: JSON.stringify({ token, topic: 'general' }),
-          })
+        const sub = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(import.meta.env.VITE_WEBPUSH_VAPID_PUBLIC_KEY),
+        })
 
-          if (!res.ok) {
-            toast.error('Đăng ký nhận thông báo thất bại', { description: `Mã lỗi: ${res.status}` })
-            console.log(await res.json())
-            return
-          }
+        const { endpoint, keys } = JSON.parse(JSON.stringify(sub))
 
-          if (curentPermission != 'granted') {
-            toast.success('Đăng ký nhận thông báo thành công')
-          }
-          console.log(token)
-        } else {
-          console.log('No registration token available.')
+        const res = await fetch(import.meta.env.VITE_API_BASE + `/notifications/subscribe`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ endpoint, keys, topic: 'general' }),
+        })
+
+        if (!res.ok) {
+          toast.error('Đăng ký nhận thông báo thất bại', { description: `Mã lỗi: ${res.status}` })
+          console.log(await res.json())
+          return
+        }
+
+        if (curentPermission != 'granted') {
+          toast.success('Đăng ký nhận thông báo thành công')
         }
       }
     }
 
-    if ('Notification' in window) {
+    if ('serviceWorker' in navigator && 'PushManager' in window && 'Notification' in window) {
       requestPermission()
+
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        toast.info(event.data.title, { description: event.data.body })
+        new Audio(pop).play()
+      })
     }
-  }, [])
-
-  useEffect(() => {
-    onMessage(messaging, (payload) => {
-      console.log(payload)
-
-      toast.info(payload.notification.title, { description: payload.notification.body })
-      new Audio(pop).play()
-    })
   }, [])
 
   return children
