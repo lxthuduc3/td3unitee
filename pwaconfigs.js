@@ -1,6 +1,9 @@
 const pwaConfigs = {
-  injectRegister: 'auto',
+  injectRegister: false,
   registerType: 'autoUpdate',
+  strategies: 'injectManifest',
+  srcDir: 'src',
+  filename: 'sw.js',
   manifest: {
     name: 'TD3 Unitee',
     short_name: 'TD3 Unitee',
