@@ -1,6 +1,5 @@
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useCallback } from 'react'
 import AuthContext from '../contexts/auth'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 
 const isTokenExpired = (tokens) => {
@@ -26,8 +25,6 @@ const refreshToken = async (tokens) => {
 }
 
 const useAuth = () => {
-  const navigate = useNavigate()
-
   const context = useContext(AuthContext)
 
   if (context == undefined) {
@@ -36,26 +33,22 @@ const useAuth = () => {
 
   const { tokens, mutateTokens, user, login, logout } = context
 
-  const [isRefreshing, setIsRefreshing] = useState(false)
+  const handleRefreshToken = useCallback(async () => {
+    const newTokens = await refreshToken(tokens)
 
-  const handleRefreshToken = async () => {
-    if (tokens && isTokenExpired(tokens) && !isRefreshing) {
-      setIsRefreshing(true)
-      console.log('refresh called')
-      const newTokens = await refreshToken(tokens)
-
-      if (newTokens) {
-        mutateTokens(newTokens)
-      } else {
-        toast.error('Phiên đăng nhập đã hết hạn', { description: 'Vui lòng đăng nhập lại.' })
-        logout()
-        navigate('/login')
-      }
-      setIsRefreshing(false)
+    if (newTokens) {
+      mutateTokens(newTokens)
+    } else {
+      toast.error('Phiên đăng nhập đã hết hạn', { description: 'Vui lòng đăng nhập lại.' })
+      logout({ callbackUrl: '/login' })
     }
-  }
+  }, [tokens, logout, mutateTokens])
 
-  handleRefreshToken()
+  useEffect(() => {
+    if (tokens && isTokenExpired(tokens)) {
+      handleRefreshToken()
+    }
+  }, [tokens, handleRefreshToken])
 
   return { user, accessToken: tokens?.id_token, login, logout }
 }

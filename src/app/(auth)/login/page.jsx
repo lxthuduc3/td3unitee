@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { useGoogleLogin } from '@react-oauth/google'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import useAuth from '@/hooks/use-auth'
 
 import { Button } from '@/components/ui/button'
@@ -13,29 +12,10 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false)
 
   const { login } = useAuth()
-  const navigate = useNavigate()
-
-  const googleLogin = useGoogleLogin({
-    onSuccess: async ({ code }) => {
-      const res = await fetch(import.meta.env.VITE_API_BASE + '/auth/google', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ code }),
-      })
-
-      const { tokens, user } = await res.json()
-
-      login({ tokens, user })
-      navigate(callbackUrl || '/')
-    },
-    flow: 'auth-code',
-  })
 
   const handleLogin = () => {
     setLoading(true)
-    googleLogin()
+    login({ callbackUrl })
   }
 
   return (

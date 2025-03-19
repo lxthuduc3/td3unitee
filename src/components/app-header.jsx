@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { getAbbreviationName } from '@/lib/utils'
 import useAuth from '@/hooks/use-auth'
-import { googleLogout } from '@react-oauth/google'
 
 import { ChevronLeft, User, Settings, LogOut } from 'lucide-react'
 
@@ -87,8 +86,7 @@ const AppHeader = ({ title }) => {
           <DropdownMenuItem
             className='cursor-pointer'
             onClick={() => {
-              googleLogout()
-              logout()
+              logout({ callbackUrl: '/login' })
             }}
           >
             <LogOut className='h-4 w-4' />
