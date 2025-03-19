@@ -60,6 +60,8 @@ const NotificationProvider = ({ children }) => {
       requestPermission()
 
       navigator.serviceWorker.addEventListener('message', (event) => {
+        console.log(event.data)
+
         toast.info(event.data.title, { description: event.data.body })
         new Audio(pop).play()
       })
