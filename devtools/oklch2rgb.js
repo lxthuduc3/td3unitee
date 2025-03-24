@@ -35,6 +35,7 @@ const main = async (css) => {
   console.log(outputCSS.join('\n'))
 }
 
+// raw css from index.css
 const raw = `--background: oklch(0.145 0 0);
     --foreground: oklch(0.985 0 0);
     --card: oklch(0.145 0 0);
