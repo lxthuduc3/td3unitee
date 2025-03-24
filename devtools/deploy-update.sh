@@ -54,7 +54,7 @@ done
 echo -e "$new_env_vars" > .env
 
 # Build application
-echo "\nBuilding project...\n"
+echo -e "\nBuilding project...\n"
 npm run build
 
 # Modify fallback CSS to support old iPhones
@@ -64,6 +64,7 @@ echo -e "\nModifying CSS for iOS compatibility...\n"
 # Deploy to server
 echo -e "\nDeploying application...\n"
 rm -rf /var/www/td3unitee
+mkdir -p  /var/www/td3unitee
 cp -r dist/* /var/www/td3unitee
 
 # Restart nginx
