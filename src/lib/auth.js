@@ -26,7 +26,7 @@ export const getAuthStatus = () => {
   const storedTokens = localStorage.getItem('tokens')
   const storedUser = localStorage.getItem('user')
 
-  if (!storedTokens || !storedUser) {
+  if (!storedTokens || !storedUser || storedTokens == 'undefined' || storedUser == 'undefined') {
     return 'unauthenticated'
   }
 
