@@ -1,7 +1,7 @@
 import { format, isToday, isBefore, isPast, startOfDay, startOfWeek, addDays, isSameDay, parse } from 'date-fns'
 import { vi } from 'date-fns/locale'
 import { cn } from '@/lib/utils'
-import useAuth from '@/hooks/use-auth'
+import { getAccessToken } from '@/lib/auth'
 import { mutate } from 'swr'
 import { toast } from 'sonner'
 
@@ -36,7 +36,6 @@ const canModifyMeal = (date, meal) => {
 }
 
 const MealRegistrationTable = ({ mealRegistrations }) => {
-  const { accessToken } = useAuth()
   let today = new Date()
   if (today.getDay() == 6 && today.getHours() >= 19) {
     today = addDays(today, 1)
@@ -44,6 +43,8 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
   const baseDay = startOfDay(startOfWeek(today))
 
   const modifyMeal = async (registration) => {
+    const accessToken = await getAccessToken()
+
     const res = await fetch(import.meta.env.VITE_API_BASE + `/me/meal-registrations/${registration._id}`, {
       method: 'PATCH',
       headers: {
@@ -65,6 +66,8 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
   }
 
   const registerMeal = async ({ date, meal, late }) => {
+    const accessToken = await getAccessToken()
+
     const res = await fetch(import.meta.env.VITE_API_BASE + `/me/meal-registrations`, {
       method: 'POST',
       headers: {
@@ -86,6 +89,8 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
   }
 
   const cancelMeal = async (registration) => {
+    const accessToken = await getAccessToken()
+
     const res = await fetch(import.meta.env.VITE_API_BASE + `/me/meal-registrations/${registration._id}`, {
       method: 'DELETE',
       headers: {

@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import AuthProvider from '@/components/auth-provider'
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import ThemeProvider from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
@@ -18,7 +17,7 @@ const RootLayout = ({ children }) => {
       <div className='font-plus-jakarta-sans h-screen w-screen overflow-hidden pt-[env(safe-area-inset-top)] pr-[env(safe-area-inset-right)] pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)] antialiased'>
         <ThemeProvider>
           <Toaster position='top-center' />
-          <AuthProvider>{children}</AuthProvider>
+          {children}
         </ThemeProvider>
       </div>
     </GoogleOAuthProvider>

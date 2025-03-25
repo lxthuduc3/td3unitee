@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { getAbbreviationName } from '@/lib/utils'
-import useAuth from '@/hooks/use-auth'
+import { getUser, unsetAuth } from '@/lib/auth'
+import { googleLogout } from '@react-oauth/google'
 
 import { ChevronLeft, User, Settings, LogOut } from 'lucide-react'
 
@@ -19,7 +20,7 @@ import { Link } from 'react-router-dom'
 const AppHeader = ({ title }) => {
   const navigate = useNavigate()
 
-  const { user, logout } = useAuth()
+  const user = getUser()
 
   return (
     <header className='sticky top-0 flex items-center justify-between border-b p-2'>
@@ -86,7 +87,9 @@ const AppHeader = ({ title }) => {
           <DropdownMenuItem
             className='cursor-pointer'
             onClick={() => {
-              logout({ callbackUrl: '/login' })
+              googleLogout()
+              unsetAuth()
+              navigate('/login')
             }}
           >
             <LogOut className='h-4 w-4' />

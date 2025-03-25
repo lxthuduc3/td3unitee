@@ -1,12 +1,12 @@
-import useAuth from '@/hooks/use-auth'
+import { getAuthStatus } from '@/lib/auth'
 import { Navigate, useLocation } from 'react-router-dom'
 
 const AuthGuard = ({ children }) => {
-  const { user } = useAuth()
+  const authStatus = getAuthStatus()
 
   const location = useLocation()
 
-  if (!user) {
+  if (authStatus == 'unauthenticated') {
     return (
       <Navigate
         to={`/login?callbackUrl=${location.pathname}`}

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import useTheme from '@/hooks/use-theme'
-import useAuth from '@/hooks/use-auth'
+import { getAccessToken } from '@/lib/auth'
 import { toast } from 'sonner'
 
 import { Sun, Moon, SunMoon } from 'lucide-react'
@@ -25,7 +25,6 @@ const urlBase64ToUint8Array = (base64String) => {
 
 const SettingsPage = () => {
   const { theme, setTheme } = useTheme()
-  const { accessToken } = useAuth()
 
   const [notiStatus, setNotiStatus] = useState(() => {
     if ('Notification' in window) {
@@ -111,6 +110,8 @@ const SettingsPage = () => {
               })
 
               const { endpoint, keys } = JSON.parse(JSON.stringify(sub))
+
+              const accessToken = await getAccessToken()
 
               const res = await fetch(import.meta.env.VITE_API_BASE + `/notifications/subscribe`, {
                 method: 'POST',

@@ -1,5 +1,5 @@
 import { toast } from 'sonner'
-import useAuth from '@/hooks/use-auth'
+import { getAccessToken } from '@/lib/auth'
 
 import pop from '@/assets/sounds/pop.mp3'
 
@@ -19,8 +19,6 @@ const urlBase64ToUint8Array = (base64String) => {
 }
 
 const NotificationProvider = ({ children }) => {
-  const { accessToken } = useAuth()
-
   useEffect(() => {
     const requestPermission = async () => {
       const curentPermission = Notification.permission
@@ -34,6 +32,8 @@ const NotificationProvider = ({ children }) => {
         })
 
         const { endpoint, keys } = JSON.parse(JSON.stringify(sub))
+
+        const accessToken = await getAccessToken()
 
         const res = await fetch(import.meta.env.VITE_API_BASE + `/notifications/subscribe`, {
           method: 'POST',

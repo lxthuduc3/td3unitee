@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import useAuth from '@/hooks/use-auth'
+import { getAccessToken } from '@/lib/auth'
 import { toast } from 'sonner'
 import { addDays, startOfDay, startOfWeek } from 'date-fns'
 
@@ -12,7 +12,6 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 
 const ShoppingPage = () => {
-  const { accessToken } = useAuth()
   const [selectedMeals, setSelectedMeals] = useState([])
   const [ingredients, setIngredients] = useState()
 
@@ -23,6 +22,8 @@ const ShoppingPage = () => {
   const baseDay = startOfDay(startOfWeek(today))
 
   const handleCalculateIngredientsToBuy = async () => {
+    const accessToken = await getAccessToken()
+
     const res = await fetch(import.meta.env.VITE_API_BASE + '/meals/ingredients', {
       method: 'POST',
       headers: {

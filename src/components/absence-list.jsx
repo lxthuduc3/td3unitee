@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
 import { mutate } from 'swr'
 import { toast } from 'sonner'
-import useAuth from '@/hooks/use-auth'
+import { getAccessToken } from '@/lib/auth'
 import { cn } from '@/lib/utils'
 
 import { Trash2 } from 'lucide-react'
@@ -22,9 +22,9 @@ import {
 } from '@/components/ui/alert-dialog'
 
 const AbsenceItem = ({ absence }) => {
-  const { accessToken } = useAuth()
-
   const handleCancel = async () => {
+    const accessToken = await getAccessToken()
+
     const res = await fetch(import.meta.env.VITE_API_BASE + `/me/absences/${absence._id}`, {
       method: 'PATCH',
       headers: {

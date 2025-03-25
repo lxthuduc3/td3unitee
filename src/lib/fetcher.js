@@ -1,4 +1,8 @@
-const fetcher = async (endpoint, accessToken) => {
+import { getAccessToken } from './auth'
+
+const fetcher = async (endpoint) => {
+  const accessToken = await getAccessToken()
+
   const res = await fetch(`${import.meta.env.VITE_API_BASE}${endpoint}`, {
     method: 'GET',
     headers: {

@@ -5,7 +5,7 @@ import currency from '@/lib/currency'
 import { format } from 'date-fns'
 import { mutate } from 'swr'
 import { toast } from 'sonner'
-import useAuth from '@/hooks/use-auth'
+import { getAccessToken } from '@/lib/auth'
 
 import { transactionStatuses } from '@/lib/display-text'
 
@@ -29,11 +29,11 @@ import {
 const BoardingFeeForm = lazy(() => import('@/components/boarding-fee-form'))
 
 const BoardingFeeItem = ({ boardingFee }) => {
-  const { accessToken } = useAuth()
-
   const [formOpen, setFormOpen] = useState(false)
 
   const handleFormSubmit = async (values) => {
+    const accessToken = await getAccessToken()
+
     const res = await fetch(import.meta.env.VITE_API_BASE + `/me/boarding-fees/${boardingFee._id}`, {
       method: 'PATCH',
       headers: {
@@ -60,6 +60,8 @@ const BoardingFeeItem = ({ boardingFee }) => {
   }
 
   const handleDelete = async () => {
+    const accessToken = await getAccessToken()
+
     const res = await fetch(import.meta.env.VITE_API_BASE + `/me/boarding-fees/${boardingFee._id}`, {
       method: 'DELETE',
       headers: {

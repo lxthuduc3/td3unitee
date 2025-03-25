@@ -5,7 +5,7 @@ import currency from '@/lib/currency'
 import { format } from 'date-fns'
 import { mutate } from 'swr'
 import { toast } from 'sonner'
-import useAuth from '@/hooks/use-auth'
+import { getAccessToken } from '@/lib/auth'
 
 import { transactionStatuses } from '@/lib/display-text'
 
@@ -29,11 +29,11 @@ import {
 const ExpenseReportForm = lazy(() => import('@/components/expense-report-form'))
 
 const ExpenseReportItem = ({ expense }) => {
-  const { accessToken } = useAuth()
-
   const [formOpen, setFormOpen] = useState(false)
 
   const handleFormSubmit = async (values) => {
+    const accessToken = await getAccessToken()
+
     const res = await fetch(import.meta.env.VITE_API_BASE + `/me/expenses/${expense._id}`, {
       method: 'PATCH',
       headers: {
@@ -60,6 +60,8 @@ const ExpenseReportItem = ({ expense }) => {
   }
 
   const handleDelete = async () => {
+    const accessToken = await getAccessToken()
+
     const res = await fetch(import.meta.env.VITE_API_BASE + `/me/expenses/${expense._id}`, {
       method: 'DELETE',
       headers: {
@@ -80,6 +82,8 @@ const ExpenseReportItem = ({ expense }) => {
   }
 
   const handleConfirm = async () => {
+    const accessToken = await getAccessToken()
+
     const res = await fetch(import.meta.env.VITE_API_BASE + `/me/expenses/${expense._id}/confirm`, {
       method: 'PATCH',
       headers: {

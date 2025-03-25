@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import useFetch from '@/hooks/use-fetch'
-import useAuth from '@/hooks/use-auth'
+import { getAccessToken } from '@/lib/auth'
 import { mutate } from 'swr'
 import { format } from 'date-fns'
 import { toast } from 'sonner'
@@ -14,11 +14,12 @@ import { Button } from '@/components/ui/button'
 
 const NotificationPage = () => {
   const { id } = useParams()
-  const { accessToken } = useAuth()
 
   const { data: notification } = useFetch(`/notifications/${id}`, { suspense: true })
 
   const handleMarkAsRead = async () => {
+    const accessToken = await getAccessToken()
+
     const res = await fetch(import.meta.env.VITE_API_BASE + `/notifications/${id}/mark-as-read`, {
       method: 'PATCH',
       headers: {

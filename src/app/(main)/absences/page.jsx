@@ -2,7 +2,7 @@ import { useState, lazy, Suspense } from 'react'
 import useFetch from '@/hooks/use-fetch'
 import { mutate } from 'swr'
 import { toast } from 'sonner'
-import useAuth from '@/hooks/use-auth'
+import { getAccessToken } from '@/lib/auth'
 import { buildUrl } from '@/lib/utils'
 
 import { Plus } from 'lucide-react'
@@ -15,13 +15,13 @@ const AbsenceForm = lazy(() => import('@/components/absence-form'))
 const AbsenceList = lazy(() => import('@/components/absence-list'))
 
 const AbsencesPage = () => {
-  const { accessToken } = useAuth()
-
   const [formOpen, setFormOpen] = useState(false)
 
   const { data: absences } = useFetch(buildUrl('/me/absences'), { suspense: true })
 
   const handleFormSubmit = async (values) => {
+    const accessToken = await getAccessToken()
+
     const res = await fetch(import.meta.env.VITE_API_BASE + '/me/absences', {
       method: 'POST',
       headers: {

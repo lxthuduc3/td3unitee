@@ -3,7 +3,7 @@ import useFetch from '@/hooks/use-fetch'
 import { mutate } from 'swr'
 import { toast } from 'sonner'
 import { transactionStatuses } from '@/lib/display-text'
-import useAuth from '@/hooks/use-auth'
+import { getAccessToken } from '@/lib/auth'
 import { buildUrl } from '@/lib/utils'
 
 import { Plus } from 'lucide-react'
@@ -18,14 +18,14 @@ const BoardingFeeForm = lazy(() => import('@/components/boarding-fee-form'))
 const BoardingFeeList = lazy(() => import('@/components/boarding-fee-list'))
 
 const BoardingFeePage = () => {
-  const { accessToken } = useAuth()
-
   const [formOpen, setFormOpen] = useState(false)
   const [status, setStatus] = useState('')
 
   const { data: boardingFees } = useFetch(buildUrl('/me/boarding-fees', { status }), { suspense: true })
 
   const handleFormSubmit = async (values) => {
+    const accessToken = await getAccessToken()
+
     const res = await fetch(import.meta.env.VITE_API_BASE + '/me/boarding-fees', {
       method: 'POST',
       headers: {

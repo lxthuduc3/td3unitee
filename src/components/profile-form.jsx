@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { format } from 'date-fns'
 import { mutate } from 'swr'
-import useAuth from '@/hooks/use-auth'
+import { getAccessToken } from '@/lib/auth'
 import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
 import profileSchema from '@/schemas/profile-schema'
@@ -14,8 +14,6 @@ import { Skeleton } from '@/components/ui/skeleton'
 import DatePicker from '@/components/ext/date-picker'
 
 const ProfileForm = ({ currentProfile }) => {
-  const { accessToken } = useAuth()
-
   const navigate = useNavigate()
 
   const form = useForm({
@@ -33,6 +31,8 @@ const ProfileForm = ({ currentProfile }) => {
   })
 
   const onSubmit = async (values) => {
+    const accessToken = await getAccessToken()
+
     const res = await fetch(import.meta.env.VITE_API_BASE + '/me/profile/edit', {
       method: 'PATCH',
       headers: {
