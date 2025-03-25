@@ -55,18 +55,18 @@ const ProfileCard = ({ profile, isAbleToEdit }) => {
           <div className='mt-2 flex flex-col gap-2'>
             <Link
               to={`mailto:${profile.email}`}
-              className='bg-card text-card-foreground flex flex-row items-center gap-2 rounded-lg border p-2 shadow'
+              className='bg-card text-card-foreground flex flex-row items-center gap-2 rounded-lg border p-2 break-all shadow'
             >
-              <FiRrEnvelope />
+              <FiRrEnvelope className='shrink-0' />
               {profile.email}
             </Link>
 
             {profile.phone && (
               <Link
                 to={profile.phone ? `tel:${profile.phone}` : '#'}
-                className='bg-card text-card-foreground flex flex-row items-center gap-2 rounded-lg border p-2 shadow'
+                className='bg-card text-card-foreground flex flex-row items-center gap-2 rounded-lg border p-2 break-all shadow'
               >
-                <FiRrPhoneCall />
+                <FiRrPhoneCall className='shrink-0' />
                 {profile.phone}
               </Link>
             )}
@@ -75,9 +75,9 @@ const ProfileCard = ({ profile, isAbleToEdit }) => {
               <Link
                 to={profile.facebook || '#'}
                 target='_blank'
-                className='bg-card text-card-foreground flex flex-row items-center gap-2 rounded-lg border p-2 shadow'
+                className='bg-card text-card-foreground flex flex-row items-center gap-2 rounded-lg border p-2 break-all shadow'
               >
-                <FiBrandsFacebook />
+                <FiBrandsFacebook className='shrink-0' />
                 {profile.facebook}
               </Link>
             )}
