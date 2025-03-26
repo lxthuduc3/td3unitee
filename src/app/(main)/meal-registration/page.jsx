@@ -19,7 +19,7 @@ const MealRegistrationPage = () => {
       </p>
       <p className='text-center text-xs italic'>
         Điều chỉnh phải được thực hiện trước {import.meta.env.VITE_LUNCH_MODIFY_UNTIL} và{' '}
-        {import.meta.env.VITE_DINER_MODIFY_UNTIL}
+        {import.meta.env.VITE_DINNER_MODIFY_UNTIL}
         <br />
         (Có thể hủy đăng ký)
       </p>
