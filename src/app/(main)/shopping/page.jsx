@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { getAccessToken } from '@/lib/auth'
 import { toast } from 'sonner'
-import { addDays, startOfDay, startOfWeek } from 'date-fns'
+import { addDays, format, startOfDay, startOfWeek } from 'date-fns'
 
 import { Calculator } from 'lucide-react'
 
@@ -108,6 +108,7 @@ const ShoppingPage = () => {
           </TableRow>
         </TableBody>
       </Table>
+      <span className='text-muted-foreground text-sm italic'>Chủ nhật là {format(baseDay, 'dd/MM/yyy')}</span>
       <Button onClick={handleCalculateIngredientsToBuy}>
         <Calculator />
         Ước tính
