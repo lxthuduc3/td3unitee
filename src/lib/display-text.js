@@ -17,3 +17,9 @@ export const transactionStatuses = {
   rejected: 'Đã từ chối',
   completed: 'Đã hoàn tất',
 }
+
+export const documentCategories = {
+  general: 'Chung',
+  meeting: 'Cuộc họp',
+  report: 'Báo cáo',
+}

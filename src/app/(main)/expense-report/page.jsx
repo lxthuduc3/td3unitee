@@ -28,11 +28,8 @@ const ExpenseReportPage = () => {
   })
 
   const { data: expenses } = useFetch(
-    buildUrl(
-      '/me/expenses',
-      { status, dateFrom: format(date?.from, 'yyyy-MM-dd'), dateTo: format(date?.to, 'yyyy-MM-dd') },
-      { suspense: true }
-    )
+    buildUrl('/me/expenses', { status, dateFrom: format(date?.from, 'yyyy-MM-dd'), dateTo: format(date?.to, 'yyyy-MM-dd') }),
+    { suspense: true }
   )
 
   const handleFormSubmit = async (values) => {
