@@ -10,6 +10,17 @@ import { Check, X, TimerReset } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Skeleton } from '@/components/ui/skeleton'
 
 const concatDateTime = (date, timeString) => {
@@ -180,16 +191,37 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                         >
                           <TimerReset />
                         </Button>
-                        <Button
-                          variant='ghost'
-                          size='icon'
-                          disabled={!(canModifyMeal(date, 'lunch') && !!lunchRegistration)}
-                          onClick={() => {
-                            cancelMeal(lunchRegistration)
-                          }}
-                        >
-                          <X />
-                        </Button>
+
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant='ghost'
+                              size='icon'
+                              disabled={!(canModifyMeal(date, 'lunch') && !!lunchRegistration)}
+                            >
+                              <X />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Xác nhận</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Nếu hiện tại là sau {import.meta.env.VITE_MEAL_REGISTER_UNTIL}, bạn sẽ KHÔNG đăng ký cơm lại
+                                được nữa. Bạn chắc chắn muốn thực hiện HỦY CƠM chứ?
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Hủy bỏ</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() => {
+                                  cancelMeal(lunchRegistration)
+                                }}
+                              >
+                                Tiếp tục
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </div>
                     </PopoverContent>
                   </Popover>
@@ -213,7 +245,7 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                           size='icon'
                           disabled={
                             (!!dinnerRegistration && !dinnerRegistration.late) ||
-                            !(canRegisterMeal(date) || (canModifyMeal(date, 'dinner') && !dinnerRegistration))
+                            !(canRegisterMeal(date) || (canModifyMeal(date, 'dinner') && !!dinnerRegistration))
                           }
                           onClick={() => {
                             if (!dinnerRegistration) {
@@ -230,7 +262,7 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                           size='icon'
                           disabled={
                             (!!dinnerRegistration && dinnerRegistration.late) ||
-                            !(canRegisterMeal(date) || (canModifyMeal(date, 'dinner') && !dinnerRegistration))
+                            !(canRegisterMeal(date) || (canModifyMeal(date, 'dinner') && !!dinnerRegistration))
                           }
                           onClick={() => {
                             if (!dinnerRegistration) {
@@ -242,16 +274,37 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                         >
                           <TimerReset />
                         </Button>
-                        <Button
-                          variant='ghost'
-                          size='icon'
-                          disabled={!(canModifyMeal(date, 'dinner') && !!dinnerRegistration)}
-                          onClick={() => {
-                            cancelMeal(dinnerRegistration)
-                          }}
-                        >
-                          <X />
-                        </Button>
+
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button
+                              variant='ghost'
+                              size='icon'
+                              disabled={!(canModifyMeal(date, 'dinner') && !!dinnerRegistration)}
+                            >
+                              <X />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Xác nhận</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Nếu hiện tại là sau {import.meta.env.VITE_MEAL_REGISTER_UNTIL}, bạn sẽ KHÔNG đăng ký cơm lại
+                                được nữa. Bạn chắc chắn muốn thực hiện HỦY CƠM chứ?
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Hủy bỏ</AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() => {
+                                  cancelMeal(dinnerRegistration)
+                                }}
+                              >
+                                Tiếp tục
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
                       </div>
                     </PopoverContent>
                   </Popover>
