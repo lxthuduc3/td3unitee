@@ -1,5 +1,9 @@
-import { BookUser, CookingPot, MailPlus, ReceiptText, ShoppingCart, Sparkles, BookText } from 'lucide-react'
+import { getUser } from '@/lib/auth'
+import { cn } from '@/lib/utils'
+
+import { BookUser, CookingPot, ReceiptText, ShoppingCart, BookText } from 'lucide-react'
 import FiRrHouseLeave from '@/components/flaticons/fi-rr-house-leave'
+import FiRrSalad from '@/components/flaticons/fi-rr-salad'
 
 import AppWrapper from '@/components/app-wrapper'
 import { Link } from 'react-router-dom'
@@ -7,15 +11,16 @@ import { Link } from 'react-router-dom'
 const tools = [
   { name: 'Nấu cơm', url: '/cooking', icon: CookingPot },
   { name: 'Đi chợ', url: '/shopping', icon: ShoppingCart },
+  { name: 'Thực đơn', url: '/meals', icon: FiRrSalad },
   { name: 'XN tiền nhà', url: '/boarding-fees', icon: ReceiptText },
   { name: 'Báo vắng', url: '/absences', icon: FiRrHouseLeave },
   { name: 'Danh bạ', url: '/contacts', icon: BookUser },
   { name: 'Tài liệu', url: '/documents', icon: BookText },
-  // { name: 'Viết mail', url: '/mailing', icon: MailPlus },
-  // { name: 'Uy tín', url: '/credibility', icon: Sparkles },
 ]
 
 const Home = () => {
+  const user = getUser()
+
   return (
     <AppWrapper
       title='Trang chủ'
@@ -34,7 +39,10 @@ const Home = () => {
             <Link
               key={`tool${index}`}
               to={tool.url}
-              className='hover:bg-muted/50 flex aspect-square flex-col items-center justify-center gap-1 rounded-xl border p-2'
+              className={cn(
+                'hover:bg-muted/50 flex aspect-square flex-col items-center justify-center gap-1 rounded-xl border p-2',
+                { hidden: tool.url == '/meals' && user.role != 'roomLeader' && user.role != 'executiveBoard' }
+              )}
             >
               <tool.icon className='text-primary h-8 w-8' />
               <span className='line-clamp-1 text-center text-xs'>{tool.name}</span>
