@@ -14,7 +14,7 @@ const PendingPage = () => {
         alt='icon'
         className='aspect-square h-40 w-40'
       />
-      <h1 className='text-2xl font-bold'>TD3 Unitee v1.2.0</h1>
+      <h1 className='text-2xl font-bold'>TD3 Unitee v1.3.0</h1>
       <p className='text-center'>Đang xét duyệt. Liên hệ ban điều hành để quá trình được thực hiện nhanh hơn.</p>
       <Button
         onClick={() => {

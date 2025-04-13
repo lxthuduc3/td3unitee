@@ -3,9 +3,9 @@ import useFetch from '@/hooks/use-fetch'
 import { mutate } from 'swr'
 import { toast } from 'sonner'
 import { transactionStatuses } from '@/lib/display-text'
-import { getAccessToken } from '@/lib/auth'
+import { getAccessToken, getUser } from '@/lib/auth'
 import { buildUrl } from '@/lib/utils'
-
+import { sendPush } from '@/lib/send-push'
 import { Plus } from 'lucide-react'
 
 import AppWrapper from '@/components/app-wrapper'
@@ -18,6 +18,7 @@ const BoardingFeeForm = lazy(() => import('@/components/boarding-fee-form'))
 const BoardingFeeList = lazy(() => import('@/components/boarding-fee-list'))
 
 const BoardingFeePage = () => {
+  const user = getUser()
   const [formOpen, setFormOpen] = useState(false)
   const [status, setStatus] = useState('')
 
@@ -41,7 +42,10 @@ const BoardingFeePage = () => {
 
       return
     }
-
+    await sendPush(
+      { title: 'Xác nhận tiền nhà', body: `${user.familyName} ${user.givenName} yêu cầu xác nhận ${values.desc}` },
+      accessToken
+    )
     toast.success(`Yêu cầu xác nhận tiền nhà thành công.`)
     mutate((key) => key.startsWith('/me/boarding-fees'))
     setFormOpen(false)

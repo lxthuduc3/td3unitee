@@ -19,8 +19,6 @@ const tools = [
 ]
 
 const Home = () => {
-  const user = getUser()
-
   return (
     <AppWrapper
       title='Trang chủ'
@@ -40,8 +38,7 @@ const Home = () => {
               key={`tool${index}`}
               to={tool.url}
               className={cn(
-                'hover:bg-muted/50 flex aspect-square flex-col items-center justify-center gap-1 rounded-xl border p-2',
-                { hidden: tool.url == '/meals' && user.role != 'roomLeader' && user.role != 'executiveBoard' }
+                'hover:bg-muted/50 flex aspect-square flex-col items-center justify-center gap-1 rounded-xl border p-2'
               )}
             >
               <tool.icon className='text-primary h-8 w-8' />

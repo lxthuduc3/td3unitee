@@ -4,8 +4,10 @@ import useFetch from '@/hooks/use-fetch'
 import { mutate } from 'swr'
 import { toast } from 'sonner'
 import { transactionStatuses } from '@/lib/display-text'
-import { getAccessToken } from '@/lib/auth'
+import { getAccessToken, getUser } from '@/lib/auth'
 import { buildUrl } from '@/lib/utils'
+
+import { sendPush } from '@/lib/send-push'
 
 import { Plus } from 'lucide-react'
 
@@ -20,6 +22,7 @@ const ExpenseReportList = lazy(() => import('@/components/expense-report-list'))
 const ExpenseReportForm = lazy(() => import('@/components/expense-report-form'))
 
 const ExpenseReportPage = () => {
+  const user = getUser()
   const [formOpen, setFormOpen] = useState(false)
   const [status, setStatus] = useState('')
   const [date, setDate] = useState({
@@ -50,7 +53,10 @@ const ExpenseReportPage = () => {
 
       return
     }
-
+    await sendPush(
+      { title: 'Báo chi', body: `${user.familyName} ${user.givenName} yêu cầu xác nhận chi ${values.desc}` },
+      accessToken
+    )
     toast.success(`Báo chi thành công.`)
     mutate((key) => key.startsWith('/me/expenses'))
     setFormOpen(false)

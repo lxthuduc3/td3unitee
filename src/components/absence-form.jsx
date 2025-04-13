@@ -14,11 +14,11 @@ const AbsenceForm = ({ defaultValues, onSubmit, onReset }) => {
   const form = useForm({
     resolver: zodResolver(absenceSchema),
     defaultValues: !!defaultValues
-      ? { ...defaultValues, date: format(defaultValues.date, 'yyyy-MM-dd') }
+      ? { ...defaultValues, date: format(defaultValues.date, 'HH:mm yyyy/MM/ddd') }
       : {
           title: '',
           reason: '',
-          date: format(new Date(), 'yyyy-MM-dd'),
+          date: format(new Date(), 'HH:mm yyyy/MM/dd'),
         },
   })
 
@@ -90,7 +90,7 @@ const AbsenceForm = ({ defaultValues, onSubmit, onReset }) => {
               <DatePicker
                 date={new Date(field.value)}
                 onDateChange={(date) => {
-                  field.onChange(format(date, 'yyyy-MM-dd'))
+                  field.onChange(format(date, 'HH:mm yyyy-MM-dd'))
                 }}
                 popoverPosition='center'
               />

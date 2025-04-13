@@ -2,8 +2,9 @@ import { useState, lazy, Suspense } from 'react'
 import useFetch from '@/hooks/use-fetch'
 import { mutate } from 'swr'
 import { toast } from 'sonner'
-import { getAccessToken } from '@/lib/auth'
+import { getAccessToken, getUser } from '@/lib/auth'
 import { buildUrl } from '@/lib/utils'
+import { sendPush } from '@/lib/send-push'
 
 import { Plus } from 'lucide-react'
 
@@ -15,6 +16,7 @@ const AbsenceForm = lazy(() => import('@/components/absence-form'))
 const AbsenceList = lazy(() => import('@/components/absence-list'))
 
 const AbsencesPage = () => {
+  const user = getUser()
   const [formOpen, setFormOpen] = useState(false)
 
   const { data: absences } = useFetch(buildUrl('/me/absences'), { suspense: true })
@@ -37,6 +39,8 @@ const AbsencesPage = () => {
 
       return
     }
+
+    await sendPush({ title: 'Báo vắng', body: `${user.familyName} ${user.givenName} xin ${values.title}` }, accessToken)
 
     toast.success(`Báo vắng thành công.`)
     mutate((key) => key.startsWith('/me/absences'))
