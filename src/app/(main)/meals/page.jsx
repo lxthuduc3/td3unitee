@@ -1,6 +1,7 @@
 import { useState, lazy, Suspense } from 'react'
 import useFetch from '@/hooks/use-fetch'
 
+import { getUser } from '@/lib/auth'
 import { Edit, Check } from 'lucide-react'
 
 import AppWrapper from '@/components/app-wrapper'
@@ -10,6 +11,7 @@ import { Button } from '@/components/ui/button'
 const MealPlanCard = lazy(() => import('@/components/meal-plan-card'))
 
 const MealsPage = () => {
+  const user = getUser()
   const [editMode, setEditMode] = useState(false)
 
   const { data: menu } = useFetch('/meals', { suspense: true })
@@ -25,6 +27,7 @@ const MealsPage = () => {
             onClick={() => {
               setEditMode((prev) => !prev)
             }}
+            disabled={!(user?.role === 'executiveBoard' || user?.role === 'leaderRoom')}
           >
             {editMode ? (
               <>
