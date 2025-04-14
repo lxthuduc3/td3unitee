@@ -31,7 +31,7 @@ const MealsPage = () => {
           >
             {editMode ? (
               <>
-                <Check /> Hoàn thành{' '}
+                <Check /> Hoàn thành
               </>
             ) : (
               <>
