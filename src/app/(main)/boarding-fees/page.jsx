@@ -6,6 +6,8 @@ import { transactionStatuses } from '@/lib/display-text'
 import { getAccessToken, getUser } from '@/lib/auth'
 import { buildUrl } from '@/lib/utils'
 import { sendPush } from '@/lib/send-push'
+import currency from '@/lib/currency'
+
 import { Plus } from 'lucide-react'
 
 import AppWrapper from '@/components/app-wrapper'
@@ -43,7 +45,10 @@ const BoardingFeePage = () => {
       return
     }
     await sendPush(
-      { title: 'Xác nhận tiền nhà', body: `${user.familyName} ${user.givenName} yêu cầu xác nhận ${values.desc}` },
+      {
+        title: 'Xác nhận tiền nhà',
+        body: `${user.familyName} ${user.givenName} yêu cầu xác nhận ${values.desc} ${currency.format(values.amount)}`,
+      },
       accessToken
     )
     toast.success(`Yêu cầu xác nhận tiền nhà thành công.`)

@@ -6,7 +6,7 @@ import { toast } from 'sonner'
 import { transactionStatuses } from '@/lib/display-text'
 import { getAccessToken, getUser } from '@/lib/auth'
 import { buildUrl } from '@/lib/utils'
-
+import currency from '@/lib/currency'
 import { sendPush } from '@/lib/send-push'
 
 import { Plus } from 'lucide-react'
@@ -18,6 +18,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import DateRangePicker from '@/components/ext/date-range-picker'
 import { ExpenseReportListSkeleton } from '@/components/expense-report-list'
+
 const ExpenseReportList = lazy(() => import('@/components/expense-report-list'))
 const ExpenseReportForm = lazy(() => import('@/components/expense-report-form'))
 
@@ -54,7 +55,10 @@ const ExpenseReportPage = () => {
       return
     }
     await sendPush(
-      { title: 'Báo chi', body: `${user.familyName} ${user.givenName} yêu cầu xác nhận chi ${values.desc}` },
+      {
+        title: 'Báo chi',
+        body: `${user.familyName} ${user.givenName} yêu cầu xác nhận khoản chi ${values.desc} ${currency.format(values.amount)}`,
+      },
       accessToken
     )
     toast.success(`Báo chi thành công.`)
