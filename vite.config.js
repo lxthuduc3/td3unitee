@@ -5,6 +5,7 @@ import { VitePWA } from 'vite-plugin-pwa'
 import path from 'path'
 
 import pwaConfigs from './pwaconfigs'
+import pkg from './package.json';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -13,5 +14,8 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
+  },
+  define: {
+    __APP_VERSION__: JSON.stringify(pkg.version),
   },
 })
