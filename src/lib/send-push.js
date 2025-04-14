@@ -2,7 +2,7 @@ import { toast } from "sonner"
 
 export const sendPush = async ({ title, body, url }, accessToken) => {
 
-  const resNoti = await fetch(import.meta.env.VITE_API_BASE + '/notifications/subscriptions?topic=admin', {
+  const resNoti = await fetch(import.meta.env.VITE_API_BASE + '/notifications/subscriptions-admin?topic=admin', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -45,5 +45,5 @@ export const sendPush = async ({ title, body, url }, accessToken) => {
   const results = await Promise.all(notificationPromises)
   const successCount = results.filter(Boolean).length
 
-  //toast.success(`Thông tin đến Ban điều hành thành công: ${successCount}/${subscriptions.length}`)
+  toast.success(`Thông tin đến Ban điều hành thành công: ${successCount}/${subscriptions.length}`)
 }

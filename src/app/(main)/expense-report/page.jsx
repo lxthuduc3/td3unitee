@@ -54,6 +54,11 @@ const ExpenseReportPage = () => {
 
       return
     }
+
+    toast.success(`Báo chi thành công.`)
+    mutate((key) => key.startsWith('/me/expenses'))
+    setFormOpen(false)
+
     await sendPush(
       {
         title: 'Báo chi',
@@ -61,9 +66,6 @@ const ExpenseReportPage = () => {
       },
       accessToken
     )
-    toast.success(`Báo chi thành công.`)
-    mutate((key) => key.startsWith('/me/expenses'))
-    setFormOpen(false)
   }
 
   const handleFormReset = () => {

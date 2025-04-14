@@ -44,6 +44,11 @@ const BoardingFeePage = () => {
 
       return
     }
+
+    toast.success(`Yêu cầu xác nhận tiền nhà thành công.`)
+    mutate((key) => key.startsWith('/me/boarding-fees'))
+    setFormOpen(false)
+
     await sendPush(
       {
         title: 'Xác nhận tiền nhà',
@@ -51,9 +56,6 @@ const BoardingFeePage = () => {
       },
       accessToken
     )
-    toast.success(`Yêu cầu xác nhận tiền nhà thành công.`)
-    mutate((key) => key.startsWith('/me/boarding-fees'))
-    setFormOpen(false)
   }
 
   const handleFormReset = () => {
