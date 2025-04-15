@@ -40,11 +40,11 @@ const AbsencesPage = () => {
       return
     }
 
-    await sendPush({ title: 'Báo vắng', body: `${user.familyName} ${user.givenName} xin ${values.title}` }, accessToken)
-
     toast.success(`Báo vắng thành công.`)
     mutate((key) => key.startsWith('/me/absences'))
     setFormOpen(false)
+
+    await sendPush({ title: 'Báo vắng', body: `${user.familyName} ${user.givenName} xin ${values.title}` }, accessToken)
   }
 
   const handleFormReset = () => {

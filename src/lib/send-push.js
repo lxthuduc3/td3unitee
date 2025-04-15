@@ -2,7 +2,7 @@ import { toast } from "sonner"
 
 export const sendPush = async ({ title, body, url }, accessToken) => {
 
-  const resNoti = await fetch(import.meta.env.VITE_API_BASE + '/notifications/subscriptions-admin?topic=admin', {
+  const resNoti = await fetch(import.meta.env.VITE_API_BASE + '/notifications/subscriptions/admin', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
