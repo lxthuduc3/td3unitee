@@ -1,6 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import { format } from 'date-fns'
 
 import { absenceSchema } from '@/schemas/absence-schema'
 
@@ -14,11 +13,14 @@ const AbsenceForm = ({ defaultValues, onSubmit, onReset }) => {
   const form = useForm({
     resolver: zodResolver(absenceSchema),
     defaultValues: !!defaultValues
-      ? { ...defaultValues, date: format(defaultValues.date, 'HH:mm yyyy/MM/ddd') }
+      ? {
+          ...defaultValues,
+          date: new Date(defaultValues.date).toISOString(),
+        }
       : {
           title: '',
           reason: '',
-          date: format(new Date(), 'HH:mm yyyy/MM/dd'),
+          date: new Date().toISOString(),
         },
   })
 
@@ -29,7 +31,7 @@ const AbsenceForm = ({ defaultValues, onSubmit, onReset }) => {
 
   const handleFormReset = () => {
     form.reset()
-    if (!!onReset) onReset()
+    if (onReset) onReset()
   }
 
   return (
@@ -88,9 +90,9 @@ const AbsenceForm = ({ defaultValues, onSubmit, onReset }) => {
             <FormItem>
               <FormLabel>Ngày</FormLabel>
               <DatePicker
-                date={new Date(field.value)}
+                date={field.value ? new Date(field.value) : undefined}
                 onDateChange={(date) => {
-                  field.onChange(format(date, 'HH:mm yyyy-MM-dd'))
+                  field.onChange(date.toISOString())
                 }}
                 popoverPosition='center'
               />
@@ -101,7 +103,6 @@ const AbsenceForm = ({ defaultValues, onSubmit, onReset }) => {
 
         <div className='flex flex-row justify-end gap-2'>
           <Button type='submit'>Gửi</Button>
-
           <Button
             variant='secondary'
             onClick={handleFormReset}

@@ -56,7 +56,7 @@ const AbsenceItem = ({ absence }) => {
       <p className={cn({ 'text-muted-foreground line-through': absence.canceled })}>{absence.reason}</p>
 
       <time className={cn('text-xs font-medium', { 'text-muted-foreground line-through': absence.canceled })}>
-        {format(new Date(absence.date), 'HH:mm dd/MM/yyyy')}
+        {format(new Date(absence.date), 'HH:mm, dd/MM/yyyy')}
       </time>
 
       <div className='absolute right-2 bottom-2 flex flex-row gap-2'>
