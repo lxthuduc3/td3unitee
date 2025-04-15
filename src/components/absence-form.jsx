@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
@@ -92,7 +93,7 @@ const AbsenceForm = ({ defaultValues, onSubmit, onReset }) => {
               <DatePicker
                 date={field.value ? new Date(field.value) : undefined}
                 onDateChange={(date) => {
-                  field.onChange(date.toISOString())
+                  field.onChange(format(date, 'dd/MM/yyyy'))
                 }}
                 popoverPosition='center'
               />
