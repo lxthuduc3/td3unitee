@@ -2,7 +2,6 @@ import { useState, Suspense } from 'react'
 import useFetch from '@/hooks/use-fetch'
 import { format } from 'date-fns'
 import { getAbbreviationName } from '@/lib/utils'
-
 import AppWrapper from '@/components/app-wrapper'
 import DatePicker from '@/components/ext/date-picker'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -14,9 +13,10 @@ const CookingPage = () => {
   const [date, setDate] = useState(new Date())
   const [meal, setMeal] = useState(() => (new Date().getHours() >= 12 ? 'dinner' : 'lunch'))
 
-  const { data: menu } = useFetch(`/meals/${date.getDay()}/${meal}`, { suspense: true })
-
-  const { data: eaters } = useFetch(`/meal-registrations/${format(date, 'yyyy-MM-dd')}/${meal}`, { suspense: true })
+  const { data: menu, mutate: refreshMenu } = useFetch(`/meals/${date.getDay()}/${meal}`, { suspense: true })
+  const { data: eaters, mutate: refreshEaters } = useFetch(`/meal-registrations/${format(date, 'yyyy-MM-dd')}/${meal}`, {
+    suspense: true,
+  })
 
   return (
     <AppWrapper
@@ -28,7 +28,6 @@ const CookingPage = () => {
         onDateChange={setDate}
         popoverPosition='center'
       />
-
       <Tabs
         value={meal}
         onValueChange={setMeal}
@@ -40,7 +39,31 @@ const CookingPage = () => {
       </Tabs>
 
       <div className='flex w-full flex-col gap-4'>
-        <h3 className='leading-none font-semibold tracking-tight'>Thực đơn</h3>
+        <div className='flex w-full items-center justify-between'>
+          <h3 className='leading-none font-semibold tracking-tight'>Thực đơn</h3>
+          <button
+            onClick={() => {
+              refreshEaters()
+              refreshMenu()
+            }}
+            className='hover:bg-accent hover:text-accent-foreground cursor-pointer rounded-md p-2'
+          >
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              fill='none'
+              viewBox='0 0 24 24'
+              strokeWidth='1.5'
+              stroke='currentColor'
+              className='size-6'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                d='M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99'
+              />
+            </svg>
+          </button>
+        </div>
         <Suspense
           fallback={<span className='text-muted-foreground w-full animate-pulse text-center text-sm italic'>Đang tải...</span>}
         >
