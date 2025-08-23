@@ -6,7 +6,8 @@ echo "################################"
 
 # Get newest version
 echo -e "\nUpdating repository...\n"
-git pull
+git reset --hard HEAD
+git pull origin main
 
 # Install necessary packages
 echo -e "\nInstalling dependencies...\n"
