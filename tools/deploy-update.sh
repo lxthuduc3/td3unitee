@@ -59,7 +59,7 @@ npm run build
 
 # Modify fallback CSS to support old iPhones
 echo -e "\nModifying CSS for iOS compatibility...\n"
-./devtools/modify-built-fallback-css.sh
+./tools/modify-built-fallback-css.sh
 
 # Deploy to server
 echo -e "\nDeploying application...\n"
