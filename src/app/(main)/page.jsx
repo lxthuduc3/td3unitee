@@ -1,4 +1,3 @@
-import { getUser } from '@/lib/auth'
 import { cn } from '@/lib/utils'
 
 import { BookUser, CookingPot, ReceiptText, ShoppingCart, BookText } from 'lucide-react'
@@ -7,6 +6,8 @@ import FiRrSalad from '@/components/flaticons/fi-rr-salad'
 
 import AppWrapper from '@/components/app-wrapper'
 import { Link } from 'react-router-dom'
+import useFetch from '@/hooks/use-fetch'
+import { isToday, isPast, format } from 'date-fns'
 
 const tools = [
   { name: 'Nấu cơm', url: '/cooking', icon: CookingPot },
@@ -19,6 +20,8 @@ const tools = [
 ]
 
 const Home = () => {
+  const { data: events } = useFetch('/events')
+
   return (
     <AppWrapper
       title='Trang chủ'
@@ -27,7 +30,33 @@ const Home = () => {
       <p className='text-2xl font-bold'>What's up, guy!</p>
       <div className='flex flex-col gap-4'>
         <h3 className='leading-none font-semibold tracking-tight'>Sự kiện trong tuần</h3>
-        <p className='text-muted-foreground text-center text-sm italic'>Bạn có một tuần rảnh rỗi (chưa triển khai)</p>
+        {events && events.events.length > 0 ? (
+          <div>
+            {/* Tiêu đề */}
+            <div className='grid grid-cols-4 items-center gap-2 border-b pb-2 font-semibold'>
+              <label className='col-span-1'>Ngày</label>
+              <label className='col-span-2'>Sự kiện</label>
+              <label className='col-span-1 text-right'>Thời gian</label>
+            </div>
+
+            {/* Danh sách sự kiện */}
+            {events.events.map((event, index) => (
+              <div
+                key={index}
+                className={cn(
+                  'grid grid-cols-4 items-center gap-2 px-1 pb-2',
+                  isToday(event.date) ? 'bg-muted/40' : isPast(event.date) && 'text-muted-foreground'
+                )}
+              >
+                <span className='col-span-1'>{event.dayOfWeek}</span>
+                <h3 className='col-span-2'>{event.title}</h3>
+                <span className='col-span-1 text-right'>{format(event.date, 'hh:mm dd/MM')}</span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className='text-muted-foreground text-center text-sm italic'>Bạn có một tuần rảnh rỗi (chưa triển khai)</p>
+        )}
       </div>
 
       <div className='flex flex-col gap-4'>
