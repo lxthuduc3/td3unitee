@@ -35,24 +35,46 @@ const Home = () => {
             {/* Tiêu đề */}
             <div className='grid grid-cols-4 items-center gap-2 border-b pb-2 font-semibold'>
               <label className='col-span-1'>Ngày</label>
-              <label className='col-span-2'>Sự kiện</label>
+              <label className='col-span-2'></label>
               <label className='col-span-1 text-right'>Thời gian</label>
             </div>
 
             {/* Danh sách sự kiện */}
-            {events.events.map((event, index) => (
-              <div
-                key={index}
-                className={cn(
-                  'grid grid-cols-4 items-center gap-2 px-1 pb-2',
-                  isToday(event.date) ? 'bg-muted/40' : isPast(event.date) && 'text-muted-foreground'
-                )}
-              >
-                <span className='col-span-1'>{event.dayOfWeek}</span>
-                <h3 className='col-span-2'>{event.title}</h3>
-                <span className='col-span-1 text-right'>{format(event.date, 'hh:mm dd/MM')}</span>
-              </div>
-            ))}
+            {events.events
+              .sort((a, b) => {
+                const dateA = a.events && a.events.length > 0 ? new Date(a.events[0].date) : new Date()
+                const dateB = b.events && b.events.length > 0 ? new Date(b.events[0].date) : new Date()
+                return dateA - dateB
+              })
+              .map((dayEvent, index) => (
+                <div
+                  key={index}
+                  className='mb-2'
+                >
+                  {dayEvent.events && dayEvent.events.length > 0 && (
+                    <>
+                      <div className='text-muted-foreground mb-1 border-b pb-1 text-sm font-medium'>
+                        {dayEvent.dayOfWeek} - {format(dayEvent.events[0].date, 'dd/MM')}
+                      </div>
+                      {dayEvent.events
+                        .sort((a, b) => new Date(a.date) - new Date(b.date))
+                        .map((event) => (
+                          <div
+                            key={event.id}
+                            className={cn(
+                              'grid grid-cols-4 items-center gap-2 px-1 pb-2',
+                              isToday(event.date) ? 'bg-muted/40' : isPast(event.date) && 'text-muted-foreground'
+                            )}
+                          >
+                            <span className='col-span-1 text-xs'>#</span>
+                            <h3 className='col-span-2'>{event.title}</h3>
+                            <span className='col-span-1 text-right text-xs'>{format(event.date, 'HH:mm')}</span>
+                          </div>
+                        ))}
+                    </>
+                  )}
+                </div>
+              ))}
           </div>
         ) : (
           <p className='text-muted-foreground text-center text-sm italic'>Bạn có một tuần rảnh rỗi (chưa triển khai)</p>
