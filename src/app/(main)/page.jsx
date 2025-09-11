@@ -34,9 +34,9 @@ const Home = () => {
           <div>
             {/* Tiêu đề */}
             <div className='grid grid-cols-4 items-center gap-2 border-b pb-2 font-semibold'>
-              <label className='col-span-1'>Ngày</label>
+              <label className='col-span-1 text-[14px] font-semibold'>Ngày</label>
               <label className='col-span-2'></label>
-              <label className='col-span-1 text-right'>Thời gian</label>
+              <label className='col-span-1 text-right text-[14px] font-semibold'>Thời gian</label>
             </div>
 
             {/* Danh sách sự kiện */}
