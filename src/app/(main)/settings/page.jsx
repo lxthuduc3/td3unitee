@@ -34,6 +34,19 @@ const SettingsPage = () => {
     }
   })
 
+  const subscribeToPush = async (sub) => {
+    const { endpoint, keys } = sub.toJSON()
+    const accessToken = await getAccessToken()
+    return fetch(import.meta.env.VITE_API_BASE + `/notifications/subscribe`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({ endpoint, keys, topic: 'general' }),
+    })
+  }
+
   return (
     <AppWrapper
       title='Cài đặt'
@@ -98,33 +111,27 @@ const SettingsPage = () => {
         </Label>
         <Button
           id='notificationSwitch'
-          disabled={['unsupported', 'granted'].includes(notiStatus)}
+          disabled={['unsupported', 'granted', 'denied'].includes(notiStatus)}
           onClick={async () => {
-            const permission = await Notification.requestPermission()
-            if (permission == 'granted') {
-              const registration = await navigator.serviceWorker.ready
+            if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+              toast.error('Trình duyệt không hỗ trợ thông báo đẩy')
+              return
+            }
 
+            const permission = await Notification.requestPermission()
+            setNotiStatus(permission)
+
+            if (permission === 'granted') {
+              const registration = await navigator.serviceWorker.ready
               const sub = await registration.pushManager.subscribe({
                 userVisibleOnly: true,
                 applicationServerKey: urlBase64ToUint8Array(import.meta.env.VITE_WEBPUSH_VAPID_PUBLIC_KEY),
               })
 
-              const { endpoint, keys } = JSON.parse(JSON.stringify(sub))
-
-              const accessToken = await getAccessToken()
-
-              const res = await fetch(import.meta.env.VITE_API_BASE + `/notifications/subscribe`, {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${accessToken}`,
-                },
-                body: JSON.stringify({ endpoint, keys, topic: 'general' }),
-              })
+              const res = await subscribeToPush(sub)
 
               if (!res.ok) {
                 toast.error('Đăng ký nhận thông báo thất bại', { description: `Mã lỗi: ${res.status}` })
-                console.log(await res.json())
                 return
               }
 
@@ -132,7 +139,10 @@ const SettingsPage = () => {
             }
           }}
         >
-          Bật
+          {notiStatus === 'default' && 'Bật'}
+          {notiStatus === 'granted' && 'Đã bật'}
+          {notiStatus === 'denied' && 'Bị chặn'}
+          {notiStatus === 'unsupported' && 'Không hỗ trợ'}
         </Button>
       </div>
     </AppWrapper>
