@@ -1,36 +1,70 @@
 # TD3 UNITEE
 
-### Trang chủ
+---
 
-- Công cụ chính và các sự kiện trong tuần
-  ![alt text](image.png)
+## 📑 Mục lục
 
-### Trang đăng ký cơm
+- [🌐 Trang chủ](#-trang-chủ)
+- [🍚 Trang đăng ký cơm](#-trang-đăng-ký-cơm)
+- [👩‍🍳 Trang nấu cơm](#-trang-nấu-cơm)
+- [🛒 Trang đi chợ](#-trang-đi-chợ)
+- [📋 Trang báo vắng](#-trang-báo-vắng)
+- [🔔 Bật thông báo](#-bật-thông-báo)
 
-- ăn đúng giờ chọn![alt text](image-2.png)
-- ăn trễ chọn ![alt text](image-3.png)
-  ![alt text](image-1.png)
+---
 
-### Trang nấu cơm
+## 🌐 Trang chủ
 
-- Bao gồm món và số người ăn
-  ![alt text](image-4.png)
+- Hiển thị công cụ chính và các sự kiện trong tuần.
 
-### Trang đi chợ
+![Trang chủ](image.png)
 
-- Tính toán số lượng cần mua để đi chợ
-  ![alt text](image-6.png)
+---
 
-### Trang báo vắng
+## 🍚 Trang đăng ký cơm
 
-![alt text](image-7.png)
+- **Ăn đúng giờ** → chọn:  
+  ![Ăn đúng giờ](image-2.png)
 
-- Dùng cho những trường hợp
-  ![alt text](image-8.png)
+- **Ăn trễ** → chọn:  
+  ![Ăn trễ](image-3.png)
 
-### Bật thông báo
+- **Danh sách đăng ký cơm**:  
+  ![Danh sách cơm](image-1.png)
 
-- Vào cài đặt
-  ![alt text](image-10.png)
-- Cho phép thông báo
-  ![alt text](image-11.png)
+---
+
+## 👩‍🍳 Trang nấu cơm
+
+- Bao gồm **danh sách món ăn** và **số người ăn**.
+
+![Nấu cơm](image-4.png)
+
+---
+
+## 🛒 Trang đi chợ
+
+- Hệ thống tự động tính toán **số lượng cần mua** để đi chợ.
+
+![Đi chợ](image-6.png)
+
+---
+
+## 📋 Trang báo vắng
+
+- Dùng cho những trường hợp đặc biệt (ví dụ: vắng kinh, về trễ...).
+
+![Báo vắng](image-7.png)  
+![Chi tiết báo vắng](image-8.png)
+
+---
+
+## 🔔 Bật thông báo
+
+1. Vào phần **Cài đặt**.  
+   ![Cài đặt](image-10.png)
+
+2. Cho phép **Thông báo**.  
+   ![Cho phép thông báo](image-11.png)
+
+---
