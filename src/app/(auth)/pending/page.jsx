@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 
 const PendingPage = () => {
-  const navigate = useNavigate
+  const navigate = useNavigate()
 
   return (
     <section className='flex h-screen w-screen flex-col items-center justify-center gap-4 p-4'>
