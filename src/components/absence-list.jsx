@@ -1,7 +1,7 @@
 import { format } from 'date-fns'
 import { mutate } from 'swr'
 import { toast } from 'sonner'
-import { getAccessToken } from '@/lib/auth'
+import { getAccessToken, getUser } from '@/lib/auth'
 import { cn } from '@/lib/utils'
 
 import { Trash2 } from 'lucide-react'
@@ -21,7 +21,7 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 
-const AbsenceItem = ({ absence }) => {
+const AbsenceItem = ({ absence, check }) => {
   const handleCancel = async () => {
     const accessToken = await getAccessToken()
 
@@ -50,46 +50,58 @@ const AbsenceItem = ({ absence }) => {
       className='hover:bg-muted/50 relative flex flex-col gap-1 rounded-xl border p-2'
     >
       <div className='flex flex-row justify-between gap-2'>
-        <div className={cn('font-bold', { 'text-muted-foreground line-through': absence.canceled })}>{absence.title}</div>
+        <div className={cn('font-bold', { 'text-muted-foreground line-through': absence.canceled })}>
+          {check ? (
+            <span>
+              {absence.user?.familyName} {absence.user?.givenName} - Phòng {absence.user?.room}
+            </span>
+          ) : (
+            absence.title
+          )}
+        </div>
         {absence.canceled && <Badge variant='outline'>Đã hủy</Badge>}
       </div>
-      <p className={cn({ 'text-muted-foreground line-through': absence.canceled })}>{absence.reason}</p>
+      <p className={cn({ 'text-muted-foreground line-through': absence.canceled })}>
+        {check ? `${absence.title} - Lý do: ${absence.reason}` : absence.reason}
+      </p>
 
       <time className={cn('text-xs font-medium', { 'text-muted-foreground line-through': absence.canceled })}>
         {format(new Date(absence.date), 'HH:mm, dd/MM/yyyy')}
       </time>
 
-      <div className='absolute right-2 bottom-2 flex flex-row gap-2'>
-        {!absence.canceled && (
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button
-                variant='outline'
-                size='icon'
-              >
-                <Trash2 />
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Xác nhận</AlertDialogTitle>
-                <AlertDialogDescription>
-                  Hành động này sẽ hủy báo vắng. Bạn có chắc chắn muốn thực hiện không?
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Hủy bỏ</AlertDialogCancel>
-                <AlertDialogAction onClick={handleCancel}>Tiếp tục</AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        )}
-      </div>
+      {!check && (
+        <div className='absolute right-2 bottom-2 flex flex-row gap-2'>
+          {!absence.canceled && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant='outline'
+                  size='icon'
+                >
+                  <Trash2 />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Xác nhận</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Hành động này sẽ hủy báo vắng. Bạn có chắc chắn muốn thực hiện không?
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Hủy bỏ</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleCancel}>Tiếp tục</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+        </div>
+      )}
     </div>
   )
 }
 
-const AbsenceList = ({ absences }) => {
+const AbsenceList = ({ absences, check = false }) => {
   return (
     <div className='flex w-full flex-col gap-2'>
       {absences.length > 0 ? (
@@ -97,6 +109,7 @@ const AbsenceList = ({ absences }) => {
           <AbsenceItem
             key={absence._id}
             absence={absence}
+            check={check}
           />
         ))
       ) : (

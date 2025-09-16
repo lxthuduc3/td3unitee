@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { useGoogleLogin } from '@react-oauth/google'
 import { toast } from 'sonner'
@@ -13,29 +13,49 @@ const LoginPage = () => {
   const navigate = useNavigate()
 
   const [loading, setLoading] = useState(false)
+  const timeoutRef = useRef(null)
 
   const login = useGoogleLogin({
     onSuccess: async ({ code }) => {
-      const res = await fetch(import.meta.env.VITE_API_BASE + '/auth/google', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ code }),
-      })
-
-      if (!res.ok) {
-        toast.error('Đăng nhập thất bại', { description: `Mã lỗi: ${res.status}` })
-        setLoading(false)
+      // Clear timeout khi có response
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+        timeoutRef.current = null
       }
 
-      const { tokens, user } = await res.json()
+      try {
+        const res = await fetch(import.meta.env.VITE_API_BASE + '/auth/google', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ code }),
+        })
 
-      setAuth({ user, tokens })
+        if (!res.ok) {
+          toast.error('Đăng nhập thất bại', { description: `Mã lỗi: ${res.status}` })
+          setLoading(false)
+          return
+        }
 
-      navigate(callbackUrl || '/')
+        const { tokens, user } = await res.json()
+
+        setAuth({ user, tokens })
+
+        navigate(callbackUrl || '/')
+      } catch (error) {
+        toast.error('Đăng nhập thất bại', { description: 'Lỗi kết nối' })
+        setLoading(false)
+        console.log(error)
+      }
     },
     onError: (error) => {
+      // Clear timeout khi có lỗi
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+        timeoutRef.current = null
+      }
+
       toast.error('Đăng nhập thất bại')
       setLoading(false)
       console.log(error)
@@ -45,7 +65,23 @@ const LoginPage = () => {
 
   const handleLogin = () => {
     setLoading(true)
-    login()
+
+    // Timeout sau 30 giây nếu không có response
+    timeoutRef.current = setTimeout(() => {
+      setLoading(false)
+      toast.error('Đăng nhập thất bại', { description: 'Quá thời gian chờ' })
+    }, 30000)
+
+    try {
+      login()
+    } catch {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+        timeoutRef.current = null
+      }
+      setLoading(false)
+      toast.error('Đăng nhập thất bại', { description: 'Không thể khởi tạo đăng nhập' })
+    }
   }
 
   return (

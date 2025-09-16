@@ -9,7 +9,7 @@ import { getAccessToken } from '@/lib/auth'
 
 import { transactionStatuses } from '@/lib/display-text'
 
-import { Check, FilePenLine, Trash2 } from 'lucide-react'
+import { FilePenLine, Trash2 } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
 import { Skeleton } from '@/components/ui/skeleton'

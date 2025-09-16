@@ -20,6 +20,10 @@ const CookingPage = () => {
     suspense: true,
   })
 
+  const { data: cookingers } = useFetch(`/duty-schedules/cooking/${format(date, 'yyyy-MM-dd')}/${meal}`, {
+    suspense: true,
+  })
+
   const handleRefresh = async () => {
     try {
       setIsLoading(true)
@@ -182,6 +186,36 @@ const CookingPage = () => {
                       </Tooltip>
                     </TooltipProvider>
                   ))}
+              </div>
+
+              <h4 className='font-medium'>Anh em nấu cơm</h4>
+              <div className='grid grid-cols-6 gap-2'>
+                {cookingers?.schedule?.users?.length > 0 ? (
+                  cookingers.schedule.users.map((cookinger) => (
+                    <TooltipProvider key={cookinger._id}>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <div className='flex flex-col items-center'>
+                            <Avatar>
+                              <AvatarImage src={cookinger.avatar} />
+                              <AvatarFallback>{getAbbreviationName(cookinger.givenName || 'User')}</AvatarFallback>
+                            </Avatar>
+                            <span className='text-center text-xs text-nowrap whitespace-nowrap'>{cookinger.givenName}</span>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>
+                            {cookinger.familyName} {cookinger.givenName}
+                          </p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  ))
+                ) : (
+                  <div className='col-span-6'>
+                    <span className='text-muted-foreground text-sm italic'>Chưa có lịch nấu cơm</span>
+                  </div>
+                )}
               </div>
 
               <h4 className='font-medium'>Danh sách hủy cơm</h4>

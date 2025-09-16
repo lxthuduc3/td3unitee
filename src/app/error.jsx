@@ -1,11 +1,14 @@
-import { useErrorBoundary } from 'react-error-boundary'
+import { mutate } from 'swr'
 import { Button } from '@/components/ui/button'
-import { RotateCcw } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 
 const Error = ({ error }) => {
-  const { resetBoundary } = useErrorBoundary()
-
   console.log(error)
+
+  const handleGoBack = () => {
+    mutate(() => true, undefined, { revalidate: false })
+    window.location.href = '/login'
+  }
 
   return (
     <div className='flex h-screen w-screen flex-col items-center justify-center gap-1'>
@@ -16,10 +19,10 @@ const Error = ({ error }) => {
       </pre>
       <Button
         variant='outline'
-        onClick={resetBoundary}
+        onClick={handleGoBack}
       >
-        <RotateCcw />
-        Thử lại
+        <ArrowLeft />
+        Quay lại
       </Button>
     </div>
   )

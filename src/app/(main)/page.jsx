@@ -1,6 +1,6 @@
 import { cn } from '@/lib/utils'
 
-import { BookUser, CookingPot, ReceiptText, ShoppingCart, BookText } from 'lucide-react'
+import { BookUser, CookingPot, ReceiptText, ShoppingCart, BookText, Calendar1 } from 'lucide-react'
 import FiRrHouseLeave from '@/components/flaticons/fi-rr-house-leave'
 import FiRrSalad from '@/components/flaticons/fi-rr-salad'
 
@@ -17,6 +17,7 @@ const tools = [
   { name: 'Báo vắng', url: '/absences', icon: FiRrHouseLeave },
   { name: 'Danh bạ', url: '/contacts', icon: BookUser },
   { name: 'Tài liệu', url: '/documents', icon: BookText },
+  { name: 'Lịch trực', url: '/duty-schedule', icon: Calendar1 },
 ]
 
 const Home = () => {
