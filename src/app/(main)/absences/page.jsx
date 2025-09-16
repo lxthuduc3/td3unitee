@@ -20,6 +20,7 @@ const AbsencesPage = () => {
   const [formOpen, setFormOpen] = useState(false)
 
   const { data: absences } = useFetch(buildUrl('/me/absences'), { suspense: true })
+  const { data: absencesadmin } = useFetch(buildUrl('/absences/week'), { suspense: true })
 
   const handleFormSubmit = async (values) => {
     const accessToken = await getAccessToken()
@@ -85,6 +86,17 @@ const AbsencesPage = () => {
 
       <div className='flex flex-col gap-4 pb-16'>
         <Suspense fallback={<AbsenceListSkeleton />}>
+          {user?.role === 'executiveBoard' && (
+            <>
+              <p>Báo vắng trong tuần của anh em</p>
+              <AbsenceList
+                absences={absencesadmin.absences}
+                check={true}
+              />
+              <p>Báo vắng của bạn</p>
+            </>
+          )}
+
           <AbsenceList absences={absences} />
         </Suspense>
       </div>
