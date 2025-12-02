@@ -27,7 +27,7 @@ const MealsPage = () => {
             onClick={() => {
               setEditMode((prev) => !prev)
             }}
-            disabled={!(user?.role === 'executiveBoard' || user?.role === 'roomLeader')}
+            disabled={!(user?.role === 'executiveBoard' || user?.role === 'roomLeader' || user?.role === 'shopper')}
           >
             {editMode ? (
               <>
