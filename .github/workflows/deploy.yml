@@ -15,32 +15,10 @@ concurrency:
 
 jobs:
   deploy:
-    name: Deploy to production
     runs-on: ubuntu-latest
     environment: production
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci --force
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Build
-        run: npm run build
-
-      - name: Patch fallback CSS
-        run: bash tools/modify-built-fallback-css.sh
-
       - name: Prepare SSH
         run: |
           install -m 700 -d ~/.ssh
@@ -48,18 +26,36 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -H "${{ secrets.HOST }}" >> ~/.ssh/known_hosts
 
-      - name: Upload files
-        run: |
-          tar -C dist -czf /tmp/td3unitee-dist.tar.gz .
-          scp -i ~/.ssh/deploy_key /tmp/td3unitee-dist.tar.gz "${{ secrets.USER }}@${{ secrets.HOST }}:/tmp/td3unitee-dist.tar.gz"
-
-      - name: Activate release
+      - name: Deploy on server
         run: |
           ssh -i ~/.ssh/deploy_key "${{ secrets.USER }}@${{ secrets.HOST }}" << 'EOF'
           set -euo pipefail
+
+          cd /root/td3unitee
+
+          echo "Current directory:"
+          pwd
+
+          echo "Pull latest code..."
+          git fetch origin
+          git reset --hard origin/main
+
+          echo "Install dependencies..."
+          npm ci --force
+
+          echo "Build project..."
+          npm run build
+
+          echo "Patch fallback CSS..."
+          bash tools/modify-built-fallback-css.sh
+
+          echo "Deploy..."
           sudo rm -rf /var/www/td3unitee
           sudo mkdir -p /var/www/td3unitee
-          sudo tar -xzf /tmp/td3unitee-dist.tar.gz -C /var/www/td3unitee
+          sudo cp -r dist/* /var/www/td3unitee/
+
+          echo "Restart nginx..."
           sudo systemctl restart nginx
-          rm -f /tmp/td3unitee-dist.tar.gz
+
+          echo "Done."
           EOF
