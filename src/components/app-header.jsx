@@ -23,24 +23,24 @@ const AppHeader = ({ title }) => {
   const user = getUser()
 
   return (
-    <header className='sticky top-0 z-40 flex items-center justify-between border-b border-amber-300/70 bg-gradient-to-r from-yellow-300 via-amber-300 to-yellow-400 p-2 shadow-sm dark:border-amber-700/60 dark:from-amber-950 dark:via-yellow-900 dark:to-amber-900'>
+    <header className='sticky top-0 z-40 flex items-center justify-between border-b border-amber-200 bg-amber-50/95 p-2 shadow-sm backdrop-blur-xl dark:border-amber-800/70 dark:bg-stone-950/95'>
       <Button
         variant='ghost'
         size='icon'
         onClick={() => navigate(-1)}
-        className='relative h-8 w-8 rounded-full text-amber-950 hover:bg-white/35 dark:text-yellow-100 dark:hover:bg-white/10'
+        className='relative h-8 w-8 rounded-full text-amber-900 hover:bg-yellow-100 dark:text-amber-100 dark:hover:bg-yellow-950'
       >
         <ChevronLeft className='h-6 w-6' />
         <span className='sr-only'>Quay lại</span>
       </Button>
 
-      <h1 className='flex-1 text-center text-lg font-bold text-amber-950 dark:text-yellow-100'>{title}</h1>
+      <h1 className='flex-1 text-center text-lg font-bold text-amber-950 dark:text-amber-100'>{title}</h1>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant='ghost'
-            className='relative h-8 w-8 rounded-full ring-2 ring-white/60 hover:bg-white/30 dark:ring-yellow-400/40'
+            className='relative h-8 w-8 rounded-full ring-2 ring-amber-300/70 hover:bg-yellow-100 dark:ring-amber-700/70 dark:hover:bg-yellow-950'
           >
             <Avatar className='h-8 w-8'>
               <AvatarImage
