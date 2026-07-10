@@ -7,25 +7,23 @@ import { Button } from '@/components/ui/button'
 const PendingPage = () => {
   const navigate = useNavigate()
   return (
-    <section className='flex h-screen w-screen flex-col items-center justify-center gap-4 p-4'>
-      <img
-        src={'/icon.png'}
-        alt='icon'
-        className='aspect-square h-40 w-40'
-      />
-      <h1 className='text-2xl font-bold'>TD3 Unitee v{__APP_VERSION__}</h1>
-      <p className='text-center'>Cảm ơn bạn đã là một phần của Lưu xá Thủ Đức 3. Mong mọi điều tốt đẹp sẽ đến với bạn!</p>
+    <section className='app-page-surface flex h-screen w-screen flex-col items-center justify-center gap-4 p-6 text-center'>
+      <div className='w-full max-w-sm rounded-3xl border border-yellow-200 bg-card/90 p-8 shadow-xl backdrop-blur dark:border-yellow-800'>
+      <img src={'/icon.png'} alt='TD3 Unitee' className='mx-auto aspect-square h-32 w-32 rounded-3xl bg-gradient-to-br from-yellow-300 to-amber-500 p-2 shadow-lg' />
+      <h1 className='mt-6 text-2xl font-extrabold text-amber-950 dark:text-yellow-100'>Hẹn gặp lại bạn! 👋</h1>
+      <p className='mt-3 text-center text-muted-foreground'>Cảm ơn bạn đã là một phần của Lưu xá Thủ Đức 3. Mong mọi điều tốt đẹp sẽ đến với bạn!</p>
       <Button
         onClick={() => {
           googleLogout()
           unsetAuth()
           navigate('/login')
         }}
-        variant='outline'
-        className='min-w-32 text-center'
+        variant='outline' className='mt-6 min-w-32 border-amber-300 bg-amber-50 text-center text-amber-900 hover:bg-yellow-100 dark:border-amber-700 dark:bg-amber-950/30 dark:text-amber-200'
       >
         Đăng xuất
       </Button>
+      <p className='mt-5 text-xs text-muted-foreground'>TD3 Unitee v{__APP_VERSION__}</p>
+      </div>
     </section>
   )
 }
