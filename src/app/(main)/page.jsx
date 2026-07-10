@@ -41,7 +41,7 @@ const Home = () => {
       </div>
 
       {/* Events Section */}
-      <div className='bg-card rounded-2xl border border-yellow-200 p-6 shadow-sm dark:border-yellow-800'>
+      <div className='order-2 rounded-2xl border border-yellow-200 bg-card p-6 shadow-sm dark:border-yellow-800'>
         <div className='mb-6 flex items-center gap-3'>
           <div className='rounded-lg bg-yellow-400 p-2 dark:bg-yellow-500'>
             <Calendar1 className='h-6 w-6 text-white' />
@@ -114,7 +114,7 @@ const Home = () => {
       </div>
 
       {/* Tools Section */}
-      <div className='bg-card rounded-2xl border border-yellow-200 p-6 shadow-sm dark:border-yellow-800'>
+      <div className='order-1 rounded-2xl border border-yellow-200 bg-card p-6 shadow-sm dark:border-yellow-800'>
         <div className='mb-6 flex items-center gap-3'>
           <div className='rounded-lg bg-amber-400 p-2 dark:bg-amber-500'>
             <BookText className='h-6 w-6 text-white' />
