@@ -55,7 +55,7 @@ const AbsencesPage = () => {
   return (
     <AppWrapper
       title='Báo vắng'
-      className='min-h-screen bg-gray-50 dark:bg-black'
+      className='min-h-screen'
     >
       <Drawer
         open={formOpen}

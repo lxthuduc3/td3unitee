@@ -13,7 +13,7 @@ const AppNavbar = () => {
   const location = useLocation()
 
   return (
-    <nav className='w-full border-t border-gray-200 bg-white shadow-sm dark:border-neutral-800 dark:bg-black'>
+    <nav className='w-full border-t border-amber-200 bg-amber-50/95 shadow-[0_-6px_20px_rgba(180,120,20,0.08)] backdrop-blur-xl dark:border-amber-800/70 dark:bg-stone-950/95'>
       <ul className='grid grid-cols-4 gap-2 px-2 py-1'>
         {navItems.map((item, index) => {
           const active = item.href === '/' ? location.pathname === '/' : location.pathname.startsWith(item.href)
@@ -23,9 +23,9 @@ const AppNavbar = () => {
               <Link
                 to={item.href}
                 className={cn(
-                  `text-black-600 dark:text-white-400 flex flex-col items-center rounded-xl px-3 py-2 text-center font-medium transition-colors hover:bg-yellow-100 dark:hover:bg-yellow-950`,
+                  `flex flex-col items-center rounded-xl px-3 py-2 text-center font-medium text-amber-900 transition-all hover:bg-yellow-100 dark:text-amber-100 dark:hover:bg-yellow-950`,
                   {
-                    'bg-yellow-500 text-white shadow-md dark:bg-yellow-500 dark:text-black': active,
+                    'bg-gradient-to-r from-yellow-400 to-amber-500 text-amber-950 shadow-md shadow-amber-300/30 dark:from-yellow-500 dark:to-amber-500 dark:text-stone-950': active,
                   }
                 )}
               >

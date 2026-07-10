@@ -35,7 +35,7 @@ const DutySchedulePage = () => {
   return (
     <AppWrapper
       title='Lịch trực'
-      className='min-h-screen bg-gray-50 dark:bg-black'
+      className='min-h-screen'
     >
       {/* Header Section */}
       <div className='mb-6 rounded-2xl bg-gradient-to-r from-yellow-400 to-amber-500 p-6 text-white shadow-lg dark:from-yellow-500 dark:to-amber-600'>

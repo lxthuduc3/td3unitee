@@ -42,7 +42,7 @@ const NotificationPage = () => {
   return (
     <AppWrapper
       title='Chi tiết thông báo'
-      className='min-h-screen bg-gray-50 dark:bg-black'
+      className='min-h-screen'
     >
       <Suspense>
         {/* Notification Card */}
