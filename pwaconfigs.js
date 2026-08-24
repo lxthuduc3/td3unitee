@@ -13,9 +13,9 @@ const pwaConfigs = {
     maximumFileSizeToCacheInBytes: 3000000,
   },
   manifest: {
-    name: 'TD3 Unitee',
-    short_name: 'TD3 Unitee',
-    description: 'The best app for Thu Duc 3 brothers',
+    name: 'TD Unitee',
+    short_name: 'TD Unitee',
+    description: 'The best app for Thu Duc brothers',
     start_url: '/',
     scope: '/',
     lang: 'vi',

@@ -23,7 +23,7 @@ const AppHeader = ({ title }) => {
   const user = getUser()
 
   return (
-    <header className='sticky top-0 z-40 flex items-center justify-between border-b border-amber-200 bg-amber-50/95 p-2 shadow-sm backdrop-blur-xl dark:border-amber-800/70 dark:bg-stone-950/95'>
+    <header className='sticky top-0 z-40 flex items-center justify-between border-b border-amber-200 bg-amber-50/95 p-2 shadow-sm backdrop-blur-xl dark:border-amber-800/70 dark:bg-background/95'>
       <Button
         variant='ghost'
         size='icon'
