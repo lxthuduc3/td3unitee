@@ -36,7 +36,7 @@ const Home = () => {
         <div className='absolute inset-0 bg-white/20 dark:bg-black/30' />
         <div className='relative p-6'>
           <h1 className='mb-2 text-xl font-bold text-amber-900 dark:text-yellow-100'>Chào mừng trở lại! 👋</h1>
-          <p className='text-lg text-amber-700 dark:text-yellow-200'>TD3 Unitee - Nơi kết nối anh em</p>
+          <p className='text-lg text-amber-700 dark:text-yellow-200'>TD Unitee - Nơi kết nối anh em</p>
         </div>
       </div>
 
