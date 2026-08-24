@@ -16,14 +16,23 @@ const CookingPage = () => {
   const [date, setDate] = useState(new Date())
   const [meal, setMeal] = useState(() => (new Date().getHours() >= 12 ? 'dinner' : 'lunch'))
 
-  const { data: menu, mutate: refreshMenu } = useFetch(`/meals/${date.getDay()}/${meal}`, { suspense: true })
+  // Không dùng suspense ở đây: ngày/bữa chưa có thực đơn là trạng thái bình thường (BE trả 404),
+  // không phải lỗi nghiêm trọng cần văng ra trang Error toàn màn hình.
+  const {
+    data: menu,
+    error: menuError,
+    isLoading: menuLoading,
+    mutate: refreshMenu,
+  } = useFetch(`/meals/${date.getDay()}/${meal}`, { suspense: false })
   const { data: eaters, mutate: refreshEaters } = useFetch(`/meal-registrations/${format(date, 'yyyy-MM-dd')}/${meal}`, {
     suspense: true,
   })
 
-  const { data: cookingers } = useFetch(`/duty-schedules/cooking/${format(date, 'yyyy-MM-dd')}/${meal}`, {
-    suspense: true,
-  })
+  // Tương tự menu: chưa có lịch phân công nấu cơm cho ngày/bữa này là trạng thái bình thường (BE có thể trả 404).
+  const { data: cookingers, isLoading: cookingersLoading } = useFetch(
+    `/duty-schedules/cooking/${format(date, 'yyyy-MM-dd')}/${meal}`,
+    { suspense: false }
+  )
 
   const handleRefresh = async () => {
     try {
@@ -150,11 +159,13 @@ const CookingPage = () => {
                 )}
               </button>
             </div>
-            <Suspense
-              fallback={
-                <span className='text-muted-foreground w-full animate-pulse text-center text-sm italic'>Đang tải...</span>
-              }
-            >
+            {menuLoading ? (
+              <span className='text-muted-foreground w-full animate-pulse text-center text-sm italic'>Đang tải...</span>
+            ) : menuError && !menu ? (
+              <div className='py-6 text-center'>
+                <p className='text-muted-foreground text-sm'>Chưa có thực đơn cho bữa này.</p>
+              </div>
+            ) : (
               <Accordion
                 type='multiple'
                 collapsible='true'
@@ -175,7 +186,7 @@ const CookingPage = () => {
                   <AccordionContent>{menu?.soup?.ingredients?.map((i) => i.name).join(', ')}</AccordionContent>
                 </AccordionItem>
               </Accordion>
-            </Suspense>
+            )}
           </div>
 
           {/* Eaters Section */}
@@ -295,53 +306,55 @@ const CookingPage = () => {
               <h2 className='text-foreground text-xl font-bold'>Anh em nấu cơm</h2>
             </div>
 
-            <Suspense
-              fallback={<span className='text-muted-foreground w-full animate-pulse text-center text-sm'>Đang tải...</span>}
-            >
-              <div className='grid grid-cols-6 gap-3'>
-                {cookingers?.schedule?.users?.length > 0 ? (
-                  cookingers.schedule.users.map((cookinger) => (
-                    <TooltipProvider key={cookinger._id}>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <div className='flex flex-col items-center rounded-xl border border-red-200 bg-red-50 p-2 transition-colors hover:bg-red-100 dark:border-red-800 dark:bg-red-950/30 dark:hover:bg-red-900/40'>
-                            <Avatar className='ring-2 ring-red-200 dark:ring-red-800'>
-                              <AvatarImage src={cookinger.avatar} />
-                              <AvatarFallback className='bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'>
-                                {getAbbreviationName(cookinger.givenName || 'User')}
-                              </AvatarFallback>
-                            </Avatar>
-                            <span className='mt-1 text-center text-xs font-medium text-red-700 dark:text-red-300'>
-                              {cookinger.givenName}
-                            </span>
-                          </div>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>
-                            {cookinger.familyName} {cookinger.givenName}
-                          </p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  ))
-                ) : (
-                  <div className='col-span-6 py-8 text-center'>
-                    <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800'>
-                      <ChefHat />
+            {cookingersLoading ? (
+              <span className='text-muted-foreground w-full animate-pulse text-center text-sm'>Đang tải...</span>
+            ) : (
+              <>
+                <div className='grid grid-cols-6 gap-3'>
+                  {cookingers?.schedule?.users?.length > 0 ? (
+                    cookingers.schedule.users.map((cookinger) => (
+                      <TooltipProvider key={cookinger._id}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className='flex flex-col items-center rounded-xl border border-red-200 bg-red-50 p-2 transition-colors hover:bg-red-100 dark:border-red-800 dark:bg-red-950/30 dark:hover:bg-red-900/40'>
+                              <Avatar className='ring-2 ring-red-200 dark:ring-red-800'>
+                                <AvatarImage src={cookinger.avatar} />
+                                <AvatarFallback className='bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'>
+                                  {getAbbreviationName(cookinger.givenName || 'User')}
+                                </AvatarFallback>
+                              </Avatar>
+                              <span className='mt-1 text-center text-xs font-medium text-red-700 dark:text-red-300'>
+                                {cookinger.givenName}
+                              </span>
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>
+                              {cookinger.familyName} {cookinger.givenName}
+                            </p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    ))
+                  ) : (
+                    <div className='col-span-6 py-8 text-center'>
+                      <div className='mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800'>
+                        <ChefHat />
+                      </div>
+                      <p className='text-muted-foreground text-lg'>Chưa có lịch nấu cơm</p>
+                      <p className='text-muted-foreground/70 text-sm'>Liên hệ ban điều hành để được phân công</p>
                     </div>
-                    <p className='text-muted-foreground text-lg'>Chưa có lịch nấu cơm</p>
-                    <p className='text-muted-foreground/70 text-sm'>Liên hệ ban điều hành để được phân công</p>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
 
-              {/* Inspirational Quote */}
-              <div className='mt-6 rounded-xl border border-yellow-200 bg-gradient-to-r from-yellow-100 to-amber-100 p-4 text-center dark:border-yellow-800 dark:from-yellow-900/40 dark:to-amber-900/40'>
-                <p className='font-medium text-yellow-800 italic dark:text-yellow-200'>
-                  💡 &quot;Ý thức càng cao, tự do càng nhiều!&quot;
-                </p>
-              </div>
-            </Suspense>
+                {/* Inspirational Quote */}
+                <div className='mt-6 rounded-xl border border-yellow-200 bg-gradient-to-r from-yellow-100 to-amber-100 p-4 text-center dark:border-yellow-800 dark:from-yellow-900/40 dark:to-amber-900/40'>
+                  <p className='font-medium text-yellow-800 italic dark:text-yellow-200'>
+                    💡 &quot;Ý thức càng cao, tự do càng nhiều!&quot;
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         </>
       )}
