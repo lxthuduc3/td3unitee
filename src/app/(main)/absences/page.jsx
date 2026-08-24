@@ -101,7 +101,7 @@ const AbsencesPage = () => {
                 </div>
                 <div className='p-4'>
                   <AbsenceList
-                    absences={absencesadmin.absences}
+                    absences={absencesadmin?.absences}
                     check={true}
                   />
                 </div>

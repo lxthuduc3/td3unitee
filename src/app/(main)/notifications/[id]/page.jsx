@@ -79,7 +79,7 @@ const NotificationPage = () => {
 
               <div className='flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400'>
                 <span className='font-medium'>
-                  {notification.sender.familyName} {notification.sender.givenName}
+                  {notification.sender?.familyName} {notification.sender?.givenName}
                 </span>
                 <span className='text-gray-400 dark:text-gray-500'>•</span>
                 <time
@@ -94,7 +94,7 @@ const NotificationPage = () => {
 
           {/* Content */}
           <div className='mb-6 space-y-4'>
-            {notification.body.split('\n').map((para, index) => (
+            {(notification.body?.split('\n') || []).map((para, index) => (
               <p
                 key={`notificationParagraph${index}`}
                 className='text-base leading-relaxed text-gray-700 dark:text-gray-300'

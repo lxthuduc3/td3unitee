@@ -7,7 +7,7 @@ const AuthGuard = ({ children }) => {
 
   const location = useLocation()
 
-  if (authStatus == 'unauthenticated') {
+  if (authStatus == 'unauthenticated' || !user) {
     return (
       <Navigate
         to={`/login?callbackUrl=${location.pathname}`}

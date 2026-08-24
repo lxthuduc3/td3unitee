@@ -12,7 +12,7 @@ const DocumentPage = () => {
   return (
     <AppWrapper title='Chi tiết tài liệu'>
       <Suspense fallback={<span className='text-muted-foreground w-full text-sm italic'>Đang tải...</span>}>
-        <DocumentViewer content={{ type: 'doc', content: document.content }} />
+        <DocumentViewer content={{ type: 'doc', content: document?.content }} />
       </Suspense>
     </AppWrapper>
   )

@@ -101,7 +101,7 @@ const AbsenceItem = ({ absence, check }) => {
   )
 }
 
-const AbsenceList = ({ absences, check = false }) => {
+const AbsenceList = ({ absences = [], check = false }) => {
   return (
     <div className='flex w-full flex-col gap-2'>
       {absences.length > 0 ? (
