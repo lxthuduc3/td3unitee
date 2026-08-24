@@ -12,9 +12,15 @@ const fetcher = async (endpoint) => {
   })
 
   if (!res.ok) {
-    const message = await res.json()
-    const error = new Error('Failed to fetch in fetcher')
-    Object.assign(error, { status: res.status, message })
+    let body = null
+    try {
+      body = await res.json()
+    } catch {
+      // response has no/invalid JSON body
+    }
+
+    const error = new Error(body?.message || `Yêu cầu thất bại (mã lỗi: ${res.status})`)
+    Object.assign(error, { status: res.status, body })
 
     throw error
   }
