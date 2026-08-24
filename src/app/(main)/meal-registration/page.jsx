@@ -7,6 +7,7 @@ const MealRegistrationTable = lazy(() => import('@/components/meal-registration-
 
 const MealRegistrationPage = () => {
   const { data: mealRegistrations } = useFetch('/me/meal-registrations', { suspense: true })
+  const { data: mealTimeSettings } = useFetch('/meal-time-settings', { suspense: true })
 
   return (
     <AppWrapper
@@ -50,7 +51,7 @@ const MealRegistrationPage = () => {
             </div>
             <p className='text-sm'>
               Đăng ký cơm phải thực hiện trước{' '}
-              <span className='font-semibold text-amber-900 dark:text-white'>{import.meta.env.VITE_MEAL_REGISTER_UNTIL}</span>
+              <span className='font-semibold text-amber-900 dark:text-white'>{mealTimeSettings.registrationCloseTime}</span>
             </p>
           </div>
 
@@ -62,11 +63,11 @@ const MealRegistrationPage = () => {
               <p className='mb-1'>Điều chỉnh phải thực hiện trước:</p>
               <p className='ml-3'>
                 • Trưa:{' '}
-                <span className='font-semibold text-amber-900 dark:text-white'>{import.meta.env.VITE_LUNCH_MODIFY_UNTIL}</span>
+                <span className='font-semibold text-amber-900 dark:text-white'>{mealTimeSettings.lunchLateCutoffTime}</span>
               </p>
               <p className='ml-3'>
                 • Tối:{' '}
-                <span className='font-semibold text-amber-900 dark:text-white'>{import.meta.env.VITE_DINNER_MODIFY_UNTIL}</span>
+                <span className='font-semibold text-amber-900 dark:text-white'>{mealTimeSettings.dinnerLateCutoffTime}</span>
               </p>
             </div>
           </div>
@@ -89,7 +90,7 @@ const MealRegistrationPage = () => {
         </div>
 
         <Suspense fallback={<MealRegistrationTableSkeleton />}>
-          <MealRegistrationTable mealRegistrations={mealRegistrations} />
+          <MealRegistrationTable mealRegistrations={mealRegistrations} mealTimeSettings={mealTimeSettings} />
         </Suspense>
       </div>
     </AppWrapper>

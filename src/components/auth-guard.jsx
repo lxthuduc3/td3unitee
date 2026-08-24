@@ -15,7 +15,14 @@ const AuthGuard = ({ children }) => {
       />
     )
   } else {
-    if (user.status == 'pending') {
+    if (user.status == 'pending' && !user.home) {
+      return (
+        <Navigate
+          to={`/select-home`}
+          replace
+        />
+      )
+    } else if (user.status == 'pending') {
       return (
         <Navigate
           to={`/pending`}
