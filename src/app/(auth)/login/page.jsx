@@ -92,9 +92,9 @@ const LoginPage = () => {
     <section className='app-page-surface flex h-screen w-screen items-center justify-center p-5'>
       <div className='w-full max-w-sm p-8 text-center'>
         <div className='mx-auto mb-6 w-fit'>
-          <img src={'/icon.png'} alt='TD3 Unitee' className='aspect-square h-32 w-32' />
+          <img src={'/icon.png'} alt='TD Unitee' className='aspect-square h-32 w-32' />
         </div>
-        <h1 className='text-2xl font-extrabold text-amber-950 dark:text-yellow-100'>TD3 Unitee</h1>
+        <h1 className='text-2xl font-extrabold text-amber-950 dark:text-yellow-100'>TD Unitee</h1>
         <p className='mt-2 text-sm text-muted-foreground'>Kết nối anh em, sẻ chia đời sống</p>
         <p className='mt-6 font-semibold text-amber-800 dark:text-amber-300'>Hí anh em! 👋</p>
         <Button onClick={handleLogin} disabled={loading} className='mt-6 h-11 w-full rounded-xl bg-yellow-400 font-bold text-amber-950 hover:bg-yellow-500'>
