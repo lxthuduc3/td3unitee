@@ -27,18 +27,18 @@ const concatDateTime = (date, timeString) => {
   return parse(`${format(date, 'yyyy-MM-dd')} ${timeString}`, 'yyyy-MM-dd HH:mm', new Date())
 }
 
-const canRegisterMeal = (date) => {
-  const registerUntil = concatDateTime(date, import.meta.env.VITE_MEAL_REGISTER_UNTIL)
+const canRegisterMeal = (date, mealTimeSettings) => {
+  const registerUntil = concatDateTime(date, mealTimeSettings.registrationCloseTime)
 
   return isBefore(new Date(), registerUntil)
 }
 
-const canModifyMeal = (date, meal) => {
+const canModifyMeal = (date, meal, mealTimeSettings) => {
   let modifyUntil
   if (meal == 'lunch') {
-    modifyUntil = concatDateTime(date, import.meta.env.VITE_LUNCH_MODIFY_UNTIL)
+    modifyUntil = concatDateTime(date, mealTimeSettings.lunchLateCutoffTime)
   } else if (meal == 'dinner') {
-    modifyUntil = concatDateTime(date, import.meta.env.VITE_DINNER_MODIFY_UNTIL)
+    modifyUntil = concatDateTime(date, mealTimeSettings.dinnerLateCutoffTime)
   } else {
     throw new Error('Invalid meal type')
   }
@@ -46,7 +46,7 @@ const canModifyMeal = (date, meal) => {
   return isBefore(new Date(), modifyUntil)
 }
 
-const MealRegistrationTable = ({ mealRegistrations }) => {
+const MealRegistrationTable = ({ mealRegistrations, mealTimeSettings }) => {
   let today = new Date()
   if (today.getDay() == 6 && today.getHours() >= 19) {
     today = addDays(today, 1)
@@ -168,7 +168,7 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                         <Button
                           variant='ghost'
                           size='icon'
-                          disabled={!(canRegisterMeal(date) || (canModifyMeal(date, 'lunch') && !!lunchRegistration))}
+                          disabled={!(canRegisterMeal(date, mealTimeSettings) || (canModifyMeal(date, 'lunch', mealTimeSettings) && !!lunchRegistration))}
                           className={cn(
                             'h-10 w-10 rounded-xl transition-all duration-200',
                             !lunchRegistration
@@ -194,7 +194,7 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                             size='icon'
                             disabled={
                               (!!lunchRegistration && !lunchRegistration.late) ||
-                              !(canRegisterMeal(date) || (canModifyMeal(date, 'lunch') && !!lunchRegistration))
+                              !(canRegisterMeal(date, mealTimeSettings) || (canModifyMeal(date, 'lunch', mealTimeSettings) && !!lunchRegistration))
                             }
                             onClick={() => {
                               if (!lunchRegistration) {
@@ -211,7 +211,7 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                             size='icon'
                             disabled={
                               (!!lunchRegistration && lunchRegistration.late) ||
-                              !(canRegisterMeal(date) || (canModifyMeal(date, 'lunch') && !!lunchRegistration))
+                              !(canRegisterMeal(date, mealTimeSettings) || (canModifyMeal(date, 'lunch', mealTimeSettings) && !!lunchRegistration))
                             }
                             onClick={() => {
                               if (!lunchRegistration) {
@@ -229,7 +229,7 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                               <Button
                                 variant='ghost'
                                 size='icon'
-                                disabled={!(canModifyMeal(date, 'lunch') && !!lunchRegistration)}
+                                disabled={!(canModifyMeal(date, 'lunch', mealTimeSettings) && !!lunchRegistration)}
                               >
                                 <X />
                               </Button>
@@ -238,7 +238,7 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                               <AlertDialogHeader>
                                 <AlertDialogTitle>Xác nhận</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  Nếu hiện tại là sau {import.meta.env.VITE_MEAL_REGISTER_UNTIL}, bạn sẽ KHÔNG đăng ký cơm lại
+                                  Nếu hiện tại là sau {mealTimeSettings.registrationCloseTime}, bạn sẽ KHÔNG đăng ký cơm lại
                                   được nữa. Bạn chắc chắn muốn thực hiện HỦY CƠM chứ?
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
@@ -265,7 +265,7 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                         <Button
                           variant='ghost'
                           size='icon'
-                          disabled={!(canRegisterMeal(date) || (canModifyMeal(date, 'dinner') && !!dinnerRegistration))}
+                          disabled={!(canRegisterMeal(date, mealTimeSettings) || (canModifyMeal(date, 'dinner', mealTimeSettings) && !!dinnerRegistration))}
                           className={cn(
                             'h-10 w-10 rounded-xl transition-all duration-200',
                             !dinnerRegistration
@@ -291,7 +291,7 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                             size='icon'
                             disabled={
                               (!!dinnerRegistration && !dinnerRegistration.late) ||
-                              !(canRegisterMeal(date) || (canModifyMeal(date, 'dinner') && !!dinnerRegistration))
+                              !(canRegisterMeal(date, mealTimeSettings) || (canModifyMeal(date, 'dinner', mealTimeSettings) && !!dinnerRegistration))
                             }
                             onClick={() => {
                               if (!dinnerRegistration) {
@@ -308,7 +308,7 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                             size='icon'
                             disabled={
                               (!!dinnerRegistration && dinnerRegistration.late) ||
-                              !(canRegisterMeal(date) || (canModifyMeal(date, 'dinner') && !!dinnerRegistration))
+                              !(canRegisterMeal(date, mealTimeSettings) || (canModifyMeal(date, 'dinner', mealTimeSettings) && !!dinnerRegistration))
                             }
                             onClick={() => {
                               if (!dinnerRegistration) {
@@ -326,7 +326,7 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                               <Button
                                 variant='ghost'
                                 size='icon'
-                                disabled={!(canModifyMeal(date, 'dinner') && !!dinnerRegistration)}
+                                disabled={!(canModifyMeal(date, 'dinner', mealTimeSettings) && !!dinnerRegistration)}
                               >
                                 <X />
                               </Button>
@@ -335,7 +335,7 @@ const MealRegistrationTable = ({ mealRegistrations }) => {
                               <AlertDialogHeader>
                                 <AlertDialogTitle>Xác nhận</AlertDialogTitle>
                                 <AlertDialogDescription>
-                                  Nếu hiện tại là sau {import.meta.env.VITE_MEAL_REGISTER_UNTIL}, bạn sẽ KHÔNG đăng ký cơm lại
+                                  Nếu hiện tại là sau {mealTimeSettings.registrationCloseTime}, bạn sẽ KHÔNG đăng ký cơm lại
                                   được nữa. Bạn chắc chắn muốn thực hiện HỦY CƠM chứ?
                                 </AlertDialogDescription>
                               </AlertDialogHeader>
