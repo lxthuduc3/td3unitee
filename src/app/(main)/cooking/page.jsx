@@ -160,19 +160,19 @@ const CookingPage = () => {
                 collapsible='true'
                 className='w-full'
               >
-                <AccordionItem value={menu.mainDish?._id}>
-                  <AccordionTrigger>{menu.mainDish?.name}</AccordionTrigger>
-                  <AccordionContent>{menu.mainDish?.ingredients.map((i) => i.name).join(', ')}</AccordionContent>
+                <AccordionItem value={menu?.mainDish?._id}>
+                  <AccordionTrigger>{menu?.mainDish?.name}</AccordionTrigger>
+                  <AccordionContent>{menu?.mainDish?.ingredients?.map((i) => i.name).join(', ')}</AccordionContent>
                 </AccordionItem>
 
-                <AccordionItem value={menu.vegie?._id}>
-                  <AccordionTrigger>{menu.vegie?.name}</AccordionTrigger>
-                  <AccordionContent>{menu.vegie?.ingredients.map((i) => i.name).join(', ')}</AccordionContent>
+                <AccordionItem value={menu?.vegie?._id}>
+                  <AccordionTrigger>{menu?.vegie?.name}</AccordionTrigger>
+                  <AccordionContent>{menu?.vegie?.ingredients?.map((i) => i.name).join(', ')}</AccordionContent>
                 </AccordionItem>
 
-                <AccordionItem value={menu.soup?._id}>
-                  <AccordionTrigger>{menu.soup?.name}</AccordionTrigger>
-                  <AccordionContent>{menu.soup?.ingredients.map((i) => i.name).join(', ')}</AccordionContent>
+                <AccordionItem value={menu?.soup?._id}>
+                  <AccordionTrigger>{menu?.soup?.name}</AccordionTrigger>
+                  <AccordionContent>{menu?.soup?.ingredients?.map((i) => i.name).join(', ')}</AccordionContent>
                 </AccordionItem>
               </Accordion>
             </Suspense>
@@ -222,24 +222,24 @@ const CookingPage = () => {
                   {eaters
                     ?.filter((e) => !e.late)
                     .map((eater) => (
-                      <TooltipProvider key={eater.user._id}>
+                      <TooltipProvider key={eater.user?._id || eater._id}>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <div className='flex flex-col items-center rounded-xl bg-green-50 p-2 transition-colors hover:bg-green-100 dark:border-green-800 dark:bg-green-950/30 dark:hover:bg-green-900/40'>
                               <Avatar className='ring-2 ring-green-200 dark:ring-green-800'>
-                                <AvatarImage src={eater.user.avatar} />
+                                <AvatarImage src={eater.user?.avatar} />
                                 <AvatarFallback className='bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'>
-                                  {getAbbreviationName(eater.user.givenName || 'User')}
+                                  {getAbbreviationName(eater.user?.givenName || 'User')}
                                 </AvatarFallback>
                               </Avatar>
                               <span className='mt-1 text-center text-xs font-medium text-green-700 dark:text-green-300'>
-                                {eater.user.givenName}
+                                {eater.user?.givenName}
                               </span>
                             </div>
                           </TooltipTrigger>
                           <TooltipContent>
                             <p>
-                              {eater.user.familyName} {eater.user.givenName}
+                              {eater.user?.familyName} {eater.user?.givenName}
                             </p>
                           </TooltipContent>
                         </Tooltip>
@@ -258,24 +258,24 @@ const CookingPage = () => {
                   {eaters
                     ?.filter((e) => e.late)
                     .map((eater) => (
-                      <TooltipProvider key={eater.user._id}>
+                      <TooltipProvider key={eater.user?._id || eater._id}>
                         <Tooltip>
                           <TooltipTrigger asChild>
                             <div className='flex flex-col items-center rounded-xl bg-orange-50 p-2 transition-colors hover:bg-orange-100 dark:bg-orange-950/30 dark:hover:bg-orange-900/40'>
                               <Avatar className='ring-2 ring-orange-200 dark:ring-orange-800'>
-                                <AvatarImage src={eater.user.avatar} />
+                                <AvatarImage src={eater.user?.avatar} />
                                 <AvatarFallback className='bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300'>
-                                  {getAbbreviationName(eater.user.givenName || 'User')}
+                                  {getAbbreviationName(eater.user?.givenName || 'User')}
                                 </AvatarFallback>
                               </Avatar>
                               <span className='mt-1 text-center text-xs font-medium text-orange-700 dark:text-orange-300'>
-                                {eater.user.givenName}
+                                {eater.user?.givenName}
                               </span>
                             </div>
                           </TooltipTrigger>
                           <TooltipContent>
                             <p>
-                              {eater.user.familyName} {eater.user.givenName}
+                              {eater.user?.familyName} {eater.user?.givenName}
                             </p>
                           </TooltipContent>
                         </Tooltip>

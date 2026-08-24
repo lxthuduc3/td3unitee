@@ -77,27 +77,27 @@ const MealPlanCard = ({ editMode, lunch, dinner, day }) => {
               <>
                 <DishSelect
                   type='main'
-                  value={lunch.mainDish?._id}
-                  onValueChange={(value) => handleUpdate(lunch._id, { mainDish: value })}
+                  value={lunch?.mainDish?._id}
+                  onValueChange={(value) => handleUpdate(lunch?._id, { mainDish: value })}
                 />
 
                 <DishSelect
                   type='vegie'
-                  value={lunch.vegie?._id}
-                  onValueChange={(value) => handleUpdate(lunch._id, { vegie: value })}
+                  value={lunch?.vegie?._id}
+                  onValueChange={(value) => handleUpdate(lunch?._id, { vegie: value })}
                 />
 
                 <DishSelect
                   type='soup'
-                  value={lunch.soup?._id}
-                  onValueChange={(value) => handleUpdate(lunch._id, { soup: value })}
+                  value={lunch?.soup?._id}
+                  onValueChange={(value) => handleUpdate(lunch?._id, { soup: value })}
                 />
               </>
             ) : (
               <>
-                <span className={lunch.mainDish ? '' : 'text-muted-foreground'}>{lunch.mainDish?.name || '<Chưa đặt>'}</span>
-                <span className={lunch.vegie ? '' : 'text-muted-foreground'}>{lunch.vegie?.name || '<Chưa đặt>'}</span>
-                <span className={lunch.soup ? '' : 'text-muted-foreground'}>{lunch.soup?.name || '<Chưa đặt>'}</span>
+                <span className={lunch?.mainDish ? '' : 'text-muted-foreground'}>{lunch?.mainDish?.name || '<Chưa đặt>'}</span>
+                <span className={lunch?.vegie ? '' : 'text-muted-foreground'}>{lunch?.vegie?.name || '<Chưa đặt>'}</span>
+                <span className={lunch?.soup ? '' : 'text-muted-foreground'}>{lunch?.soup?.name || '<Chưa đặt>'}</span>
               </>
             )}
           </div>
@@ -110,27 +110,27 @@ const MealPlanCard = ({ editMode, lunch, dinner, day }) => {
               <>
                 <DishSelect
                   type='main'
-                  value={dinner.mainDish?._id}
-                  onValueChange={(value) => handleUpdate(dinner._id, { mainDish: value })}
+                  value={dinner?.mainDish?._id}
+                  onValueChange={(value) => handleUpdate(dinner?._id, { mainDish: value })}
                 />
 
                 <DishSelect
                   type='vegie'
-                  value={dinner.vegie?._id}
-                  onValueChange={(value) => handleUpdate(dinner._id, { vegie: value })}
+                  value={dinner?.vegie?._id}
+                  onValueChange={(value) => handleUpdate(dinner?._id, { vegie: value })}
                 />
 
                 <DishSelect
                   type='soup'
-                  value={dinner.soup?._id}
-                  onValueChange={(value) => handleUpdate(dinner._id, { soup: value })}
+                  value={dinner?.soup?._id}
+                  onValueChange={(value) => handleUpdate(dinner?._id, { soup: value })}
                 />
               </>
             ) : (
               <>
-                <span className={dinner.mainDish ? '' : 'text-muted-foreground'}>{dinner.mainDish?.name || '<Chưa đặt>'}</span>
-                <span className={dinner.vegie ? '' : 'text-muted-foreground'}>{dinner.vegie?.name || '<Chưa đặt>'}</span>
-                <span className={dinner.soup ? '' : 'text-muted-foreground'}>{dinner.soup?.name || '<Chưa đặt>'}</span>
+                <span className={dinner?.mainDish ? '' : 'text-muted-foreground'}>{dinner?.mainDish?.name || '<Chưa đặt>'}</span>
+                <span className={dinner?.vegie ? '' : 'text-muted-foreground'}>{dinner?.vegie?.name || '<Chưa đặt>'}</span>
+                <span className={dinner?.soup ? '' : 'text-muted-foreground'}>{dinner?.soup?.name || '<Chưa đặt>'}</span>
               </>
             )}
           </div>

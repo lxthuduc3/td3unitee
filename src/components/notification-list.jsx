@@ -43,7 +43,7 @@ const NotificationsList = ({ notifications = [] }) => {
                 </div>
                 <div className='flex items-center gap-2 text-xs'>
                   <span className='font-medium text-gray-600 dark:text-gray-400'>
-                    {notification.sender.familyName} {notification.sender.givenName}
+                    {notification.sender?.familyName} {notification.sender?.givenName}
                   </span>
                   <span className='text-gray-400 dark:text-gray-500'>•</span>
                   <time

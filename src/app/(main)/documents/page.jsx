@@ -35,7 +35,7 @@ const DocumentsPage = () => {
                 <Badge variant='outline'>{documentCategories[document.category]}</Badge>
                 <div>
                   <span className='ml-2 text-xs'>
-                    {document.creator.familyName} {document.creator.givenName}
+                    {document.creator?.familyName} {document.creator?.givenName}
                   </span>
                   {' - '}
                   <time className={'text-xs font-medium'}>{format(document.createdAt, 'HH:mm dd/MM/yyyy')}</time>
