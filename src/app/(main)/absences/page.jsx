@@ -19,8 +19,10 @@ const AbsencesPage = () => {
   const user = getUser()
   const [formOpen, setFormOpen] = useState(false)
 
+  const isAdmin = user?.role === 'executiveBoard'
+
   const { data: absences } = useFetch(buildUrl('/me/absences'), { suspense: true })
-  const { data: absencesadmin } = useFetch(buildUrl('/absences/week'), { suspense: true })
+  const { data: absencesadmin } = useFetch(isAdmin ? buildUrl('/absences/week') : null, { suspense: true })
 
   const handleFormSubmit = async (values) => {
     const accessToken = await getAccessToken()
@@ -88,7 +90,7 @@ const AbsencesPage = () => {
 
       <div className='flex flex-col gap-6 pb-20'>
         <Suspense fallback={<AbsenceListSkeleton />}>
-          {user?.role === 'executiveBoard' && (
+          {isAdmin && (
             <>
               {/* Admin Section */}
               <div className='overflow-hidden rounded-2xl border border-orange-200 bg-white shadow-lg dark:border-orange-800 dark:bg-gray-900'>
@@ -123,7 +125,7 @@ const AbsencesPage = () => {
             </>
           )}
 
-          {user?.role !== 'executiveBoard' && (
+          {!isAdmin && (
             <div className='overflow-hidden rounded-2xl border border-yellow-200 bg-white shadow-lg dark:border-yellow-800 dark:bg-gray-900'>
               <div className='bg-gradient-to-r from-yellow-500 to-amber-500 p-4'>
                 <h2 className='flex items-center gap-2 text-lg font-semibold text-white'>
