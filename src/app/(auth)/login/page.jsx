@@ -89,7 +89,7 @@ const LoginPage = () => {
   }
 
   return (
-    <section className='app-page-surface flex h-screen w-screen items-center justify-center p-5 pt-[calc(env(safe-area-inset-top)+1.25rem)] pb-[calc(env(safe-area-inset-bottom)+1.25rem)]'>
+    <section className='app-page-surface flex h-screen w-screen items-center justify-center p-5'>
       <div className='w-full max-w-sm p-8 text-center'>
         <div className='mx-auto mb-6 w-fit'>
           <img src={'/icon.png'} alt='TD Unitee' className='aspect-square h-32 w-32' />
