@@ -23,31 +23,35 @@ const AppHeader = ({ title }) => {
   const user = getUser()
 
   return (
-    <header className='sticky top-0 z-40 flex items-center justify-between border-b border-amber-200 bg-amber-50/95 p-2 shadow-sm backdrop-blur-xl dark:border-amber-800/70 dark:bg-background/95'>
+    <header className='glass-panel sticky top-0 z-40 flex items-center justify-between border-b p-2'>
       <Button
         variant='ghost'
         size='icon'
         onClick={() => navigate(-1)}
-        className='relative h-8 w-8 rounded-full text-amber-900 hover:bg-yellow-100 dark:text-amber-100 dark:hover:bg-yellow-950'
+        className='relative h-9 w-9 rounded-full text-amber-800 transition-all hover:bg-amber-100/60 hover:text-amber-900 dark:text-amber-200 dark:hover:bg-amber-900/30'
       >
-        <ChevronLeft className='h-6 w-6' />
+        <ChevronLeft className='h-5 w-5' />
         <span className='sr-only'>Quay lại</span>
       </Button>
 
-      <h1 className='flex-1 text-center text-lg font-bold text-amber-950 dark:text-amber-100'>{title}</h1>
+      <h1 className='flex-1 text-center text-base font-bold tracking-wide text-amber-950 dark:text-amber-100'>
+        {title}
+      </h1>
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant='ghost'
-            className='relative h-8 w-8 rounded-full ring-2 ring-amber-300/70 hover:bg-yellow-100 dark:ring-amber-700/70 dark:hover:bg-yellow-950'
+            className='glow-ring relative h-9 w-9 rounded-full p-0 transition-all hover:scale-105'
           >
-            <Avatar className='h-8 w-8'>
+            <Avatar className='h-9 w-9'>
               <AvatarImage
                 src={user?.avatar}
-                alt={`Ảnh đại diển của ${user?.familyName} ${user?.givenName}`}
+                alt={`Ảnh đại diện của ${user?.familyName} ${user?.givenName}`}
               />
-              <AvatarFallback>{getAbbreviationName(user?.givenName || 'U')}</AvatarFallback>
+              <AvatarFallback className='bg-gradient-to-br from-yellow-400 to-amber-500 text-xs font-bold text-white'>
+                {getAbbreviationName(user?.givenName || 'U')}
+              </AvatarFallback>
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
@@ -58,7 +62,7 @@ const AppHeader = ({ title }) => {
         >
           <DropdownMenuLabel className='font-normal'>
             <div className='flex flex-col gap-1'>
-              <p className='text-sm font-medium'>
+              <p className='text-sm font-semibold'>
                 {user?.familyName} {user?.givenName}
               </p>
               <p className='text-muted-foreground text-xs'>{user?.email}</p>
@@ -85,7 +89,7 @@ const AppHeader = ({ title }) => {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
-            className='cursor-pointer'
+            className='cursor-pointer text-red-600 focus:text-red-600 dark:text-red-400'
             onClick={() => {
               googleLogout()
               unsetAuth()
