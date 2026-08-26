@@ -23,7 +23,7 @@ const AppHeader = ({ title }) => {
   const user = getUser()
 
   return (
-    <header className='glass-panel sticky top-0 z-40 flex items-center justify-between border-b p-2'>
+    <header className='glass-panel sticky top-0 z-40 flex items-center justify-between border-b p-2 pt-[calc(env(safe-area-inset-top)+0.5rem)]'>
       <Button
         variant='ghost'
         size='icon'

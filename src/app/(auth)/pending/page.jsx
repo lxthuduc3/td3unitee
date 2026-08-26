@@ -8,7 +8,7 @@ const PendingPage = () => {
   const navigate = useNavigate()
 
   return (
-    <section className='app-page-surface flex h-screen w-screen flex-col items-center justify-center gap-4 p-6 text-center'>
+    <section className='app-page-surface flex h-screen w-screen flex-col items-center justify-center gap-4 p-6 pt-[calc(env(safe-area-inset-top)+1.5rem)] pb-[calc(env(safe-area-inset-bottom)+1.5rem)] text-center'>
       <div className='w-full max-w-sm rounded-3xl border border-yellow-200 bg-card/90 p-8 shadow-xl backdrop-blur dark:border-yellow-800'>
       <img src={'/icon.png'} alt='TD Unitee' className='mx-auto aspect-square h-32 w-32 rounded-3xl bg-gradient-to-br from-yellow-300 to-amber-500 p-2 shadow-lg' />
       <h1 className='mt-6 text-2xl font-extrabold text-amber-950 dark:text-yellow-100'>Đang chờ xét duyệt</h1>

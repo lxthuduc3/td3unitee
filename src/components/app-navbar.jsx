@@ -13,7 +13,7 @@ const AppNavbar = () => {
   const location = useLocation()
 
   return (
-    <nav className='glass-panel w-full border-t'>
+    <nav className='glass-panel w-full border-t pb-[env(safe-area-inset-bottom)]'>
       <ul className='grid grid-cols-4 gap-1 px-2 py-1.5'>
         {navItems.map((item, index) => {
           const active = item.href === '/' ? location.pathname === '/' : location.pathname.startsWith(item.href)
