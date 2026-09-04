@@ -88,20 +88,26 @@ const AbsencesPage = () => {
         </DrawerContent>
       </Drawer>
 
-      <div className='flex flex-col gap-6 pb-20'>
+      <div className='flex flex-col gap-4 pb-20 pt-1'>
         <Suspense fallback={<AbsenceListSkeleton />}>
           {isAdmin && (
             <>
               {/* Admin Section */}
-              <div className='overflow-hidden rounded-2xl border border-orange-200 bg-white shadow-lg dark:border-orange-800 dark:bg-gray-900'>
-                <div className='bg-gradient-to-r from-orange-500 to-red-500 p-4'>
-                  <h2 className='flex items-center gap-2 text-lg font-semibold text-white'>
-                    👥 Báo vắng của anh em trong tuần
-                    <span className='rounded-full bg-white/20 px-2 py-1 text-sm'>{absencesadmin?.absences?.length || 0}</span>
-                  </h2>
-                  <p className='mt-1 text-sm text-white/80'>Quản lý và phê duyệt đơn xin nghỉ</p>
+              <div className='overflow-hidden rounded-2xl border border-amber-200/60 bg-amber-50/60 shadow-sm dark:border-amber-700/30 dark:bg-amber-950/30'>
+                <div className='flex items-center justify-between gap-4 border-b border-amber-200/50 px-4 py-3.5 dark:border-amber-700/30'>
+                  <div className='flex items-center gap-3'>
+                    <div className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-yellow-400 to-amber-500 text-white shadow-sm shadow-amber-300/40 dark:from-yellow-500 dark:to-amber-600 dark:shadow-amber-800/30'>
+                      👥
+                    </div>
+                    <div>
+                      <h2 className='text-base font-semibold leading-tight text-amber-950 dark:text-amber-100'>Báo vắng của anh em trong tuần</h2>
+                    </div>
+                  </div>
+                  <span className='rounded-full bg-white/80 px-3 py-1 text-sm font-semibold leading-none text-amber-700 shadow-sm ring-1 ring-amber-200/70 dark:bg-amber-900/40 dark:text-amber-200 dark:ring-amber-700/30'>
+                    {absencesadmin?.absences?.length || 0}
+                  </span>
                 </div>
-                <div className='p-4'>
+                <div className='bg-white/70 p-4 dark:bg-gray-900/30'>
                   <AbsenceList
                     absences={absencesadmin?.absences}
                     check={true}
@@ -110,15 +116,21 @@ const AbsencesPage = () => {
               </div>
 
               {/* Personal Section Header */}
-              <div className='overflow-hidden rounded-2xl border border-yellow-200 bg-white shadow-lg dark:border-yellow-800 dark:bg-gray-900'>
-                <div className='bg-gradient-to-r from-yellow-500 to-amber-500 p-4'>
-                  <h2 className='flex items-center gap-2 text-lg font-semibold text-white'>
-                    📝 Báo vắng của bạn
-                    <span className='rounded-full bg-white/20 px-2 py-1 text-sm'>{absences?.length || 0}</span>
-                  </h2>
-                  <p className='mt-1 text-sm text-white/80'>Lịch sử các lần báo vắng của bạn</p>
+              <div className='overflow-hidden rounded-2xl border border-amber-200/60 bg-amber-50/60 shadow-sm dark:border-amber-700/30 dark:bg-amber-950/30'>
+                <div className='flex items-center justify-between gap-4 border-b border-amber-200/50 px-4 py-3.5 dark:border-amber-700/30'>
+                  <div className='flex items-center gap-3'>
+                    <div className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-yellow-400 to-amber-500 text-white shadow-sm shadow-amber-300/40 dark:from-yellow-500 dark:to-amber-600 dark:shadow-amber-800/30'>
+                      📝
+                    </div>
+                    <div>
+                      <h2 className='text-base font-semibold leading-tight text-amber-950 dark:text-amber-100'>Báo vắng của bạn</h2>
+                    </div>
+                  </div>
+                  <span className='rounded-full bg-white/80 px-3 py-1 text-sm font-semibold leading-none text-amber-700 shadow-sm ring-1 ring-amber-200/70 dark:bg-amber-900/40 dark:text-amber-200 dark:ring-amber-700/30'>
+                    {absences?.length || 0}
+                  </span>
                 </div>
-                <div className='p-4'>
+                <div className='bg-white/70 p-4 dark:bg-gray-900/30'>
                   <AbsenceList absences={absences} />
                 </div>
               </div>
@@ -126,15 +138,21 @@ const AbsencesPage = () => {
           )}
 
           {!isAdmin && (
-            <div className='overflow-hidden rounded-2xl border border-yellow-200 bg-white shadow-lg dark:border-yellow-800 dark:bg-gray-900'>
-              <div className='bg-gradient-to-r from-yellow-500 to-amber-500 p-4'>
-                <h2 className='flex items-center gap-2 text-lg font-semibold text-white'>
-                  📝 Lịch sử báo vắng
-                  <span className='rounded-full bg-white/20 px-2 py-1 text-sm'>{absences?.length || 0}</span>
-                </h2>
-                <p className='mt-1 text-sm text-white/80'>Danh sách các lần báo vắng của bạn</p>
+            <div className='overflow-hidden rounded-2xl border border-amber-200/60 bg-amber-50/60 shadow-sm dark:border-amber-700/30 dark:bg-amber-950/30'>
+              <div className='flex items-center justify-between gap-4 border-b border-amber-200/50 px-4 py-3.5 dark:border-amber-700/30'>
+                <div className='flex items-center gap-3'>
+                  <div className='flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-yellow-400 to-amber-500 text-white shadow-sm shadow-amber-300/40 dark:from-yellow-500 dark:to-amber-600 dark:shadow-amber-800/30'>
+                    📝
+                  </div>
+                  <div>
+                    <h2 className='text-base font-semibold leading-tight text-amber-950 dark:text-amber-100'>Lịch sử báo vắng</h2>
+                  </div>
+                </div>
+                <span className='rounded-full bg-white/80 px-3 py-1 text-sm font-semibold leading-none text-amber-700 shadow-sm ring-1 ring-amber-200/70 dark:bg-amber-900/40 dark:text-amber-200 dark:ring-amber-700/30'>
+                  {absences?.length || 0}
+                </span>
               </div>
-              <div className='p-4'>
+              <div className='bg-white/70 p-4 dark:bg-gray-900/30'>
                 <AbsenceList absences={absences} />
               </div>
             </div>
