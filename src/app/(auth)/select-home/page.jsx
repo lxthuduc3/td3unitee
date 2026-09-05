@@ -83,7 +83,7 @@ const SelectHomePage = () => {
   return (
     <section className='app-page-surface flex h-screen w-screen flex-col items-center justify-center gap-4 p-6'>
       <div className='w-full max-w-sm rounded-3xl border border-yellow-200 bg-card/90 p-8 shadow-xl backdrop-blur dark:border-yellow-800'>
-        <img src={'/icon.png'} alt='TD Unitee' className='mx-auto aspect-square h-20 w-20 rounded-2xl bg-gradient-to-br from-yellow-300 to-amber-500 p-2 shadow-lg' />
+        <img src={'/icon.png'} alt='TD3 Unitee' className='mx-auto aspect-square h-20 w-20 rounded-2xl bg-gradient-to-br from-yellow-300 to-amber-500 p-2 shadow-lg' />
         <h1 className='mt-6 text-center text-2xl font-extrabold text-amber-950 dark:text-yellow-100'>Chọn nhà của bạn</h1>
         <p className='mt-2 text-center text-sm text-muted-foreground'>Chọn nhà bạn đang sinh hoạt để tiếp tục. Sau khi chọn, quản trị viên của nhà sẽ duyệt tài khoản.</p>
 

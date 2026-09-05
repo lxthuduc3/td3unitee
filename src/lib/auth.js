@@ -70,3 +70,62 @@ export const refreshToken = async (tokens) => {
 
   return newTokens
 }
+
+const normalizeText = (value) => {
+  return String(value || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '')
+}
+
+const findDefaultHome = (homes, homeNumber) => {
+  const normalizedHomeLabel = normalizeText(`nha${homeNumber}`)
+
+  return (
+    homes.find((home) => Number(home?.number) === Number(homeNumber)) ||
+    homes.find((home) => normalizeText(home?.name) === normalizedHomeLabel) ||
+    homes.find((home) => normalizeText(home?.name).includes(String(homeNumber))) ||
+    null
+  )
+}
+
+export const selectDefaultHome = async ({ homeNumber = 3, tokens } = {}) => {
+  const idToken = tokens?.id_token || (await getAccessToken())
+  if (!idToken) {
+    return { ok: false, reason: 'missing_token' }
+  }
+
+  const homesRes = await fetch(import.meta.env.VITE_API_BASE + '/homes')
+  if (!homesRes.ok) {
+    return { ok: false, reason: 'homes_fetch_failed', status: homesRes.status }
+  }
+
+  const homes = await homesRes.json()
+  const defaultHome = findDefaultHome(homes || [], homeNumber)
+
+  if (!defaultHome?._id) {
+    return { ok: false, reason: 'default_home_not_found' }
+  }
+
+  const selectRes = await fetch(import.meta.env.VITE_API_BASE + '/auth/select-home', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+    },
+    body: JSON.stringify({ homeId: defaultHome._id }),
+  })
+
+  const data = await selectRes.json().catch(() => null)
+  if (!selectRes.ok) {
+    return { ok: false, reason: 'select_home_failed', status: selectRes.status, data }
+  }
+
+  const storedTokens = localStorage.getItem('tokens')
+  const authTokens = tokens || (storedTokens ? JSON.parse(storedTokens) : null)
+
+  setAuth({ user: data?.user, tokens: authTokens })
+
+  return { ok: true, user: data?.user, home: defaultHome }
+}

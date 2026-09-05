@@ -40,7 +40,7 @@ const Home = () => {
         {/* Content */}
         <div className='relative px-6 py-7'>
           <p className='mb-0.5 text-xs font-semibold uppercase tracking-widest text-amber-900/70 dark:text-yellow-200/70'>
-            TD Unitee
+            TD3 Unitee
           </p>
           <h1 className='mb-1 text-2xl font-extrabold text-amber-950 dark:text-white'>
             Chào mừng trở lại! 👋

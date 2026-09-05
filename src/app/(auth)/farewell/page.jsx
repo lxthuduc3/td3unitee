@@ -9,7 +9,7 @@ const PendingPage = () => {
   return (
     <section className='app-page-surface flex h-screen w-screen flex-col items-center justify-center gap-4 p-6 text-center'>
       <div className='w-full max-w-sm rounded-3xl border border-yellow-200 bg-card/90 p-8 shadow-xl backdrop-blur dark:border-yellow-800'>
-      <img src={'/icon.png'} alt='TD Unitee' className='mx-auto aspect-square h-32 w-32 rounded-3xl bg-gradient-to-br from-yellow-300 to-amber-500 p-2 shadow-lg' />
+      <img src={'/icon.png'} alt='TD3 Unitee' className='mx-auto aspect-square h-32 w-32 rounded-3xl bg-gradient-to-br from-yellow-300 to-amber-500 p-2 shadow-lg' />
       <h1 className='mt-6 text-2xl font-extrabold text-amber-950 dark:text-yellow-100'>Hẹn gặp lại bạn! 👋</h1>
       <p className='mt-3 text-center text-muted-foreground'>Cảm ơn bạn đã là một phần của Lưu xá Thủ Đức. Mong mọi điều tốt đẹp sẽ đến với bạn!</p>
       <Button
@@ -22,7 +22,7 @@ const PendingPage = () => {
       >
         Đăng xuất
       </Button>
-      <p className='mt-5 text-xs text-muted-foreground'>TD Unitee v{__APP_VERSION__}</p>
+      <p className='mt-5 text-xs text-muted-foreground'>TD3 Unitee v{__APP_VERSION__}</p>
       </div>
     </section>
   )
